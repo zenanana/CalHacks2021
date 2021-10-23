@@ -67,7 +67,6 @@ trackButton.addEventListener("click", function () {
 });
 
 
-
 function runDetection() {
     model.detect(video).then(predictions => {
         // console.log("Predictions: ", predictions);
@@ -190,6 +189,10 @@ windowWidth = window.innerWidth
 
 var enableAudio = false;
 var soundtrack = choose_soundtrack()
+var damage_sound = new Audio('../static/damage.wav')
+var menu_sound = new Audio('../static/menu.wav')
+var powerup_sound = new Audio('../static/powerup.wav')
+
 var pauseGame = false;
 var pauseGameAnimationDuration = 500;
 var endGame = false;
@@ -202,21 +205,16 @@ $("input#sound").click(function () {
     enableAudio = $(this).is(':checked')
     soundtext = enableAudio ? "sound on" : "sound off";
     $(".soundofftext").text(soundtext)
-    playClip(soundtrack)
+    if (enableAudio) {
+        soundtrack.play()
+    } else {
+        soundtrack.pause()
+    }
 });
 
-// Controls the music playing
-function playClip(clip) {
-    if (enableAudio) {
-        clip.play()
-    } else {
-        clip.pause()
-    }
-}
 
 function choose_soundtrack() {
     i = Math.floor(Math.random() * 5)
-     
     if (i == 0) {
         var bounceClip = new Audio('../static/soundtrack1.wav')
     } else if (i == 1) {
@@ -228,8 +226,16 @@ function choose_soundtrack() {
     } else if (i == 4) {
         var bounceClip = new Audio('../static/soundtrack5.wav')
     }
-    bounceClip.type = 'audio/wav'
+    // bounceClip.type = 'audio/wav'
     return bounceClip
+}
+
+
+// This function is only for sound effects, not for soundtrack. 
+function playSoundEffect(sound) {
+    if (enableAudio) {
+        sound.play()
+    }
 }
 
 
@@ -387,9 +393,11 @@ planck.testbed(function (testbed) {
         beadData = bead.getUserData()
         if (beadData.powerup) {
             // If bead hit is powerup bead
+            playSoundEffect(powerup_sound)
             updatePowerup(beadData.powerup)
         } else {
             // If bead hit is point bead
+            playSoundEffect(damage_sound)
             updateScoreBox(beadData.points);
             document.getElementById("whale").src="./static/hurtwhale.gif"
             setTimeout(() => {document.getElementById("whale").src="./static/whale200.gif"}, 5000)
@@ -712,40 +720,40 @@ planck.testbed(function (testbed) {
             var randVal = Math.random();
 
             if (randVal > 0.95) {
-                beadColor.fill = '#800080'
+                beadColor.fill = '#800080' // Purple
                 beadWidthFactor = 0.007
                 fd.userData.powerup = 'slow'
                 fd.userData.name = 'slow'
             } else if (randVal > 0.90) {
-                beadColor.fill = '#FFFF00'
+                beadColor.fill = '#FFFF00' // Yellow
                 beadWidthFactor = 0.020
                 fd.userData.powerup = 'random'
                 fd.userData.name = 'random'
             } else if (randVal > 0.87) {
-                beadColor.fill = '#808080'
+                beadColor.fill = '#808080' // Grey
                 beadWidthFactor = 0.007
                 fd.userData.powerup = 'invulnerable'
                 fd.userData.name = 'invulnerable'
             } else if (randVal > 0.83) {
-                beadColor.fill = '#FFA500'
+                beadColor.fill = '#FFA500' // Orange
                 beadWidthFactor = 0.020
                 fd.userData.powerup = 'force'
                 fd.userData.name = 'force'
             } else if (randVal > 0.8) {
                 //   green ball, - 20
-                beadColor.fill = '#32CD32'
+                beadColor.fill = '#32CD32' // Green
                 beadWidthFactor = 0.012
                 fd.userData.points = -20;
                 fd.userData.name = 'bead_20'
             } else if (randVal < 0.2) {
                 //  Red Ball, - 50
                 beadWidthFactor = 0.007
-                beadColor.fill = '#ff0000'
+                beadColor.fill = '#ff0000' // Red
                 fd.userData.points = -50;
                 fd.userData.name = 'bead_50'
             } else {
                 // White ball - 30
-                beadColor.fill = '#fff'
+                beadColor.fill = '#fff' // White
                 beadWidthFactor = 0.009
                 fd.userData.points = -30;
                 fd.userData.name = 'bead_30'
