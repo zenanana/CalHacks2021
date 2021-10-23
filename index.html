@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="css/pong.css">
 </head>
 
-<body class="bx--body p20" style="height:100%">
+<body class="bx--body p20" style="height:100%;overflow:hidden">
     <div class="infordisplay ">
         <div class="toprow">
             <img src="./static/whale.gif" class="icon  floatleft " />
@@ -24,6 +24,17 @@
                 <div class="timervalue inscore"> 0 </div>
                 <div class="timerlabel inscore"> ⏳ </div>
                 <div class="timeradded inscore"> </div>
+            </div>
+            <div class="scorebox iblock">
+                <div class="inscore">
+                    Easy Mode
+                </div>
+                <div class="inscore">
+                    <label class="switch">
+                        <input id="easymodetoggle" type="checkbox" checked>
+                        <span class="slider round"></span>
+                    </label>
+                </div>
             </div>
             <div class="clear"></div>
         </div>
