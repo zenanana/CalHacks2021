@@ -74,24 +74,31 @@ function runDetection() {
         model.renderPredictions(predictions, canvas, context, video);
         if (predictions[0]) {
             // console.log("prediction arr ", predictions)
+            let idx = 0;
+            for (var i = 0; i < predictions.length; i++){
+                if (predictions[i].label == 'open' || predictions[i].label == 'closed'){
+                    idx = i;
+                    break;
+                }
+            }
 
             // START HANDS CLOSED LOGIC
-            if (predictions[0].label != 'closed' && handClosedMeter >= 0) {
+            if (predictions[idx].label != 'closed' && handClosedMeter >= 0) {
                 handClosed = false
             } else {
                 handClosed = true
             }
             // END HANDS CLOSED LOGIC
 
-            if (predictions[0].label == 'point') {
+            if (predictions[idx].label == 'point') {
                 // console.log("Detection: point")
-            } else if (predictions[0].label == 'open') {
+            } else if (predictions[idx].label == 'open') {
                 // console.log("Detection: open")
                 document.getElementById("lightsaber").style.visibility="hidden";
                 
                 saber.setPosition(Vec2(-10000, -(0.25 * SPACE_HEIGHT)))
 
-            } else if (predictions[0].label == 'closed') {
+            } else if (predictions[idx].label == 'closed') {
                 if (handClosedMeter > 0) {
                     // console.log("Detection: closed")
                     var d = document.getElementById('lightsaber');
@@ -109,7 +116,7 @@ function runDetection() {
                 // console.log("Detection: face")
             }
             
-            let midval = predictions[0].bbox[1] + (predictions[0].bbox[3] / 2) // CHANGED HERE Y COORDINATE INSTEAD
+            let midval = predictions[idx].bbox[1] + (predictions[idx].bbox[3] / 2) // CHANGED HERE Y COORDINATE INSTEAD
             gamey = document.documentElement.clientHeight * (midval / video.height) // CHANGED HERE TO HEIGHT
             // console.log(gamey, document.documentElement.clientHeight)
             // console.log(document.documentElement.clientWidth)
