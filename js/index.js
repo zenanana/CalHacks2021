@@ -282,7 +282,8 @@ planck.testbed(function (testbed) {
             }, 500, function () {
                 $(this).css({
                     fontSize: "2vw",
-                    opacity: 1
+                    opacity: 1,
+                    color: "#ff0000"
                 }).hide()
             });
         }
