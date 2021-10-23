@@ -14,12 +14,18 @@ Submitted to CalHacks 2021
 ## Challenges we ran into
 
 ## Accomplishments that we're proud of
-Finishing a proper game before midterm week.
+
+👨‍💻 Deploying the game on [GitHub Pages](https://google.com)!
+
+💪 Getting a highscore of **170** without straining our arm muscles.
+
+😤 Finishing a proper hackathon submission before hell week (7 midterms + 1 essay)
 
 ## What we learned
-- Plank.js / Physics Engine
-- Handtrack.js / ML
+1. Physics engine with Plank.js
+2. Machine learning with Handtrack.js
 
 ## What's next for Star Whales
-- To the moon
-- Whatever
+⚡ More power ups! 
+🎮 Multiplayer mode! 
+
