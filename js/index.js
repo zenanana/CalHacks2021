@@ -340,6 +340,8 @@ planck.testbed(function (testbed) {
         } else {
             // If bead hit is point bead
             updateScoreBox(beadData.points);
+            document.getElementById("whale").src="./static/hurtwhale.gif"
+            setTimeout(() => {document.getElementById("whale").src="./static/whale200.gif"}, 5000)
         }
     }
 
