@@ -75,24 +75,31 @@ function runDetection() {
         model.renderPredictions(predictions, canvas, context, video);
         if (predictions[0]) {
             // console.log("prediction arr ", predictions)
+            let idx = 0;
+            for (var i = 0; i < predictions.length; i++){
+                if (predictions[i].label == 'open' || predictions[i].label == 'closed'){
+                    idx = i;
+                    break;
+                }
+            }
 
             // START HANDS CLOSED LOGIC
-            if (predictions[0].label != 'closed' && handClosedMeter >= 0) {
+            if (predictions[idx].label != 'closed' && handClosedMeter >= 0) {
                 handClosed = false
             } else {
                 handClosed = true
             }
             // END HANDS CLOSED LOGIC
 
-            if (predictions[0].label == 'point') {
+            if (predictions[idx].label == 'point') {
                 // console.log("Detection: point")
-            } else if (predictions[0].label == 'open') {
+            } else if (predictions[idx].label == 'open') {
                 // console.log("Detection: open")
                 document.getElementById("lightsaber").style.visibility="hidden";
                 
                 saber.setPosition(Vec2(-10000, -(0.25 * SPACE_HEIGHT)))
 
-            } else if (predictions[0].label == 'closed') {
+            } else if (predictions[idx].label == 'closed') {
                 if (handClosedMeter > 0) {
                     // console.log("Detection: closed")
                     var d = document.getElementById('lightsaber');
@@ -104,13 +111,14 @@ function runDetection() {
                     d.style.bottom = (p.y/SPACE_HEIGHT*document.documentElement.clientHeight - 300) + 'px' ; // HACK
                 } else {
                     document.getElementById("lightsaber").style.visibility="hidden"
+                    saber.setPosition(Vec2(-10000, -(0.25 * SPACE_HEIGHT)))
                 }
                 
             } else if (predictions[0].label == 'face') {
                 // console.log("Detection: face")
             }
             
-            let midval = predictions[0].bbox[1] + (predictions[0].bbox[3] / 2) // CHANGED HERE Y COORDINATE INSTEAD
+            let midval = predictions[idx].bbox[1] + (predictions[idx].bbox[3] / 2) // CHANGED HERE Y COORDINATE INSTEAD
             gamey = document.documentElement.clientHeight * (midval / video.height) // CHANGED HERE TO HEIGHT
             // console.log(gamey, document.documentElement.clientHeight)
             // console.log(document.documentElement.clientWidth)
@@ -353,11 +361,11 @@ planck.testbed(function (testbed) {
 
         var apaddle = bpaddle = false
         if (fixtureA.getUserData()) {
-            apaddle = fixtureA.getUserData().name == paddleFixedDef.userData.name;
+            apaddle = fixtureA.getUserData().name == "paddle";
         }
 
         if (fixtureB.getUserData()) {
-            bpaddle = fixtureB.getUserData().name == paddleFixedDef.userData.name;
+            bpaddle = fixtureB.getUserData().name == "paddle";
         }
         if (apaddle || bpaddle) {
             // Paddle collided with something
@@ -651,10 +659,10 @@ planck.testbed(function (testbed) {
             position: Vec2(-(0.4 * SPACE_WIDTH / 2), -(0.25 * SPACE_HEIGHT))
         })
         paddleLines = [
-            [9,0.5],
-            [15,-4],
-            [9,-4],
-            [15,0.5]
+            [-4,2.5],
+            [2,-2],
+            [-4,-2],
+            [2,2.5]
         ]
 
         n = 10, radius = SPACE_WIDTH * 0.03, paddlePath = [], paddlePath = []
@@ -666,7 +674,7 @@ planck.testbed(function (testbed) {
         paddle.createFixture(pl.Polygon(paddlePath), paddleFixedDef)
         paddle.render = {
             fill: '#222222',
-            stroke: '#222222'
+            stroke: '#ff0000'
         }
     }
 
@@ -813,6 +821,7 @@ planck.testbed(function (testbed) {
         // START HANDS CLOSED LOGIC
         if (handClosed && world.m_stepCount % 10 == 0 && handClosedMeter > 0) {
             handClosedMeter -= 1
+            saber.setPosition(paddle.getPosition())
         } else if (!handClosed && world.m_stepCount % 17 == 0 && handClosedMeter < 100) {
             handClosedMeter += 1
             console.log(handClosedMeter)
