@@ -71,8 +71,17 @@ function runDetection() {
                 console.log("Detection: point")
             } else if (predictions[0].label == 'open') {
                 console.log("Detection: open")
+                document.getElementById("lightsaber").style.visibility="hidden";
+
             } else if (predictions[0].label == 'closed') {
                 console.log("Detection: closed")
+                var d = document.getElementById('lightsaber');
+                d.style.visibility="visible";
+                d.style.position = "absolute";
+                var p = paddle.getPosition();
+                d.style.zIndex = 2;
+                d.style.left = (p.x/SPACE_WIDTH*document.documentElement.clientWidth + 600) + 'px'; // HACK
+                d.style.bottom = (p.y/SPACE_HEIGHT*document.documentElement.clientHeight - 400) + 'px' ; // HACK
             } else if (predictions[0].label == 'face') {
                 console.log("Detection: face")
             }
