@@ -10,9 +10,8 @@
 </head>
 
 <body class="bx--body p20" style="height:100%">
-    <div class="infordisplay ">
+    <div class="infordisplay " style="z-index:10">
         <div class="toprow">
-            <img src="./static/whale.gif" class="icon  floatleft " />
             <div class="scorebox  iblock ">
                 <div class="scorevalue inscore"> 0 </div>
                 <div class="scorelabel inscore"> pts </div>
@@ -20,13 +19,19 @@
             </div>
             <div class="clear"></div>
         </div>
+        
+
+        <!--
+          <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/05ae7fdf-1ed9-4261-ab43-8ae6a2e1d02a/degfmru-3f2bf044-f2d1-436a-a194-19b4378f3be8.png/v1/fill/w_960,h_540,strp/space_background_by_norma2d_degfmru-fullview.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOiIsImlzcyI6InVybjphcHA6Iiwib2JqIjpbW3siaGVpZ2h0IjoiPD01NDAiLCJwYXRoIjoiXC9mXC8wNWFlN2ZkZi0xZWQ5LTQyNjEtYWI0My04YWU2YTJlMWQwMmFcL2RlZ2ZtcnUtM2YyYmYwNDQtZjJkMS00MzZhLWExOTQtMTliNDM3OGYzYmU4LnBuZyIsIndpZHRoIjoiPD05NjAifV1dLCJhdWQiOlsidXJuOnNlcnZpY2U6aW1hZ2Uub3BlcmF0aW9ucyJdfQ.6ZG-vWBfjyv92fb4zQXe3nmHCeHcJCvjZPEAtsWz0gM" id="bgimage"
+        
+          style="position:absolute;"/>-->
 
         <img src="./static/whale200.gif" id="whale" style="z-index:10"/>
-        <img src="./static/lightsaber200.gif" style="height:200px;width:200px" id="lightsaber"/>
-        <img src="./static/raven.png" style="height:100px;width:200px" id="raven"/>
-        <img src="./static/wave.gif" id="wave" style="width:100px; height:1000px"/>
+        <img src="./static/lightsaber200.gif" style="height:200px;width:200px;z-index:10" id="lightsaber"/>
+        <img src="./static/raven.png" style="height:100px;width:200px;z-index:10" id="raven"/>
+        <img src="./static/wave.gif" id="wave" style="width:100px; height:1000px;z-index:10"/>
         
-        <div class="settingsswitches">
+        <div class="settingsswitches" style="z-index:10">
             <div class=" ">
                 <div class="iblock floatleft">
                     <label class="switch">
@@ -40,10 +45,11 @@
 
         </div>
 
-        <div class="pausetext">
+        <div class="pausetext" style="z-index:10">
             <div>Sound (s) </div>
             <div>Pause (space bar) </div>
         </div>
+
 
         <div id="updatenote" class="updatenote mt10"> loading model ..</div>
         <button  id="trackbutton" class="bx--btn bx--btn--secondary mt10 trackbutton" type="button" disabled>
@@ -52,8 +58,15 @@
 
 
     </div>
-    <video class="videobox canvasbox" autoplay="autoplay" id="myvideo"></video>
-  <canvas id="canvas" class="border canvasbox"></canvas>
+    <div style="z-index:10">
+    <video class="videobox canvasbox" autoplay="autoplay" id="myvideo" style="z-index:10"></video>
+  
+    <canvas id="canvas" class="border canvasbox" style="z-index:10"></canvas>
+  </div>
+
+  <div id="testbg" height="2300px" >
+    <textarea class="bg" height="100%"></textarea>
+  </div>
 
     <div class="pauseoverlay">
         <div class="overlaycenter">

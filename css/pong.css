@@ -208,3 +208,29 @@ input:checked+.slider:before {
     /* background: #ff8800;
     color: #fff; */
 }
+
+.bgimage{
+    background-repeat: repeat-y;
+}
+
+#testbg{
+    position: absolute;
+}
+
+.bg {
+    background: url("https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/05ae7fdf-1ed9-4261-ab43-8ae6a2e1d02a/degfmru-3f2bf044-f2d1-436a-a194-19b4378f3be8.png/v1/fill/w_960,h_540,strp/space_background_by_norma2d_degfmru-fullview.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOiIsImlzcyI6InVybjphcHA6Iiwib2JqIjpbW3siaGVpZ2h0IjoiPD01NDAiLCJwYXRoIjoiXC9mXC8wNWFlN2ZkZi0xZWQ5LTQyNjEtYWI0My04YWU2YTJlMWQwMmFcL2RlZ2ZtcnUtM2YyYmYwNDQtZjJkMS00MzZhLWExOTQtMTliNDM3OGYzYmU4LnBuZyIsIndpZHRoIjoiPD05NjAifV1dLCJhdWQiOlsidXJuOnNlcnZpY2U6aW1hZ2Uub3BlcmF0aW9ucyJdfQ.6ZG-vWBfjyv92fb4zQXe3nmHCeHcJCvjZPEAtsWz0gM");
+    background-repeat: repeat;
+    animation: animatedBackground 500s linear infinite;
+    height:2300px;
+    width:2000px;
+}
+
+@keyframes animatedBackground {
+    from {
+      background-position: 0 0;
+    }
+  /*use negative width if you want it to flow right to left else and positive for left to right*/
+    to {
+      background-position: -10000px 0;
+    }
+  }

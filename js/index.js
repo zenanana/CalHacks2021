@@ -19,6 +19,14 @@ $(".overlaycenter").animate({
     fontSize: "4vw"
 }, pauseGameAnimationDuration, function () {});
 
+$(function(){
+  var x = 0;
+  setInterval(function(){
+      x-=1;
+      $('#testbg').css('background-position', x + 'px 0');
+  }, 10);
+})
+
 const modelParams = {
     flipHorizontal: true, // flip e.g for video  
     maxNumBoxes: 1, // maximum number of boxes to detect
@@ -590,6 +598,12 @@ planck.testbed(function (testbed) {
                 }
             }
         }
+
+        console.log("Tick")
+        for (var i = 0; i < characterBodies.length; i++){
+          console.log(i, characterBodies[i]);
+        }
+
         // wrap(box)
         wrap(paddle)
         paddleBodies.forEach(function (item, key, mapObj) {
