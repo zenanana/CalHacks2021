@@ -460,8 +460,11 @@ planck.testbed(function (testbed) {
     }
 
     function updateScoreBox(points) {
-        if (!pauseGame && !powerupsInProgress.invulnerable) {
+        if (!pauseGame && !powerupsInProgress.invulnerable && !endGame) {
             playerScore += points;
+            if (playerScore < 0) {
+                playerScore = 0
+            }
             $(".healthvalue").text(playerScore)
             pointsAdded = points > 0 ? "+" + points : points
             $(".healthadded").text(pointsAdded)
