@@ -272,10 +272,10 @@ planck.testbed(function (testbed) {
     function updateScoreBox(points) {
         if (!pauseGame) {
             playerScore += points;
-            $(".scorevalue").text(playerScore)
+            $(".healthvalue").text(playerScore)
             pointsAdded = points > 0 ? "+" + points : points
-            $(".scoreadded").text(pointsAdded)
-            $(".scoreadded").show().animate({
+            $(".healthadded").text(pointsAdded)
+            $(".healthadded").show().animate({
                 opacity: 0,
                 fontSize: "4vw",
                 color: "#ff8800"

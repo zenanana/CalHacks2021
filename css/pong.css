@@ -39,19 +39,19 @@ body {
     display: inline-block;
 }
 
-.scorevalue {
+.healthvalue, .timervalue {
     font-size: 2vw;
     font-weight: bold;
 }
 
-.scoreadded {
+.healthadded, .timeradded {
     position: absolute;
     font-size: 2vw;
     font-weight: bold;
     padding: 0vw 0vw 0vw 1vw
 }
 
-.scoreanimate {
+.healthanimate, .timeranimate {
     transform: scale(3);
     transition: all 2s;
 }

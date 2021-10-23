@@ -354,10 +354,10 @@ planck.testbed(function (testbed) {
     function updateScoreBox(points) {
         if (!pauseGame && !powerupsInProgress.invulnerable) {
             playerScore += points;
-            $(".scorevalue").text(playerScore)
+            $(".healthvalue").text(playerScore)
             pointsAdded = points > 0 ? "+" + points : points
-            $(".scoreadded").text(pointsAdded)
-            $(".scoreadded").show().animate({
+            $(".healthadded").text(pointsAdded)
+            $(".healthadded").show().animate({
                 opacity: 0,
                 fontSize: "4vw",
                 color: "#ff8800"
@@ -395,10 +395,16 @@ planck.testbed(function (testbed) {
     }
 
     function endGamePlay(winlose) {
+        clearInterval(timer_interval)
+        highscore = localStorage.getItem('highscore')
+        if (!highscore || timer_value > highscore) {
+            highscore = timer_value
+            localStorage.setItem('highscore', timer_value)
+        }
         endGame = true
         paddle.setLinearVelocity(Vec2(0, 0))
         $(".pauseoverlay").show()
-        $(".overlaycenter").text("Game Over!")
+        $(".overlaycenter").text(`Game Over! Your score is ${timer_value}. Your highest score is ${highscore}.`)
         $(".overlaycenter").animate({
             opacity: 1,
             fontSize: "4vw"
@@ -427,7 +433,7 @@ planck.testbed(function (testbed) {
 
     function addUI() {
         // Update playerScore with JS variable
-        $(".scorevalue").text(playerScore)
+        $(".healthvalue").text(playerScore)
     
         addPaddle()
 
@@ -566,13 +572,19 @@ planck.testbed(function (testbed) {
 
     }
 
+    timer_value = 0
+    timer_interval = window.setInterval(() => {
+                timer_value += 1
+                $(".timervalue").text(timer_value)
+            }, 1000)
+
     function tick(dt) {
         globalTime += dt;
         var d = document.getElementById('whale');
         var e = document.getElementById('wave');
 
-        console.log("d here", d)
-        console.log("e here", e)
+        // console.log("d here", d)
+        // console.log("e here", e)
 
         d.style.position = "absolute";
         e.style.position = "absolute";
