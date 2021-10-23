@@ -545,6 +545,15 @@ planck.testbed(function (testbed) {
     function tick(dt) {
 
         globalTime += dt;
+        var d = document.getElementById('whale');
+        console.log("d here", d)
+        d.style.position = "absolute";
+        console.log("padd obj", paddle)
+        var p = paddle.getPosition();
+        console.log("paddle, ", p.x/SPACE_WIDTH*document.documentElement.clientWidth, p.y/SPACE_HEIGHT*document.documentElement.clientHeight)
+        d.style.left = (p.x/SPACE_WIDTH*document.documentElement.clientWidth + 450) + 'px'; // HACK
+        d.style.bottom = (p.y/SPACE_HEIGHT*document.documentElement.clientHeight - 400) + 'px' ; // HACK
+
         if (world.m_stepCount % 80 == 0) {
             if (!pauseGame) {
                 generateBeads(NUM_BEADS);
