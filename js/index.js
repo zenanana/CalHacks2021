@@ -131,7 +131,7 @@ var SPACE_HEIGHT = windowHeight / scale_factor;
 
 
 // Bead Details
-var NUM_BEADS = 6
+var NUM_BEADS = 12
 var BEAD_RESTITUTION = 0.7
 
 // Paddle Details
@@ -171,8 +171,10 @@ function updatePaddleControl(y) {
 planck.testbed(function (testbed) {
     var pl = planck;
     Vec2 = pl.Vec2;
+    defaultWorldVec2 = Vec2(-6, 0)
+    powerupsInProgress = {slow: false}
 
-    var world = pl.World(Vec2(-2, 0));
+    var world = pl.World(defaultWorldVec2);
     var BEAD = 4
     var PADDLE = 5
 
@@ -270,8 +272,14 @@ planck.testbed(function (testbed) {
         // console.log("attempting stroke change", bead.getUserData());
         //console.log("bead points ",bead.getUserData().points);
         playClip(bounceClip)
-        updateScoreBox(bead.getUserData().points);
-
+        beadData = bead.getUserData()
+        if (beadData.powerup) {
+            // If bead hit is powerup bead
+            updatePowerup(beadData.powerup)
+        } else {
+            // If bead hit is point bead
+            updateScoreBox(beadData.points);
+        }
     }
 
     function playClip(clip) {
@@ -280,8 +288,61 @@ planck.testbed(function (testbed) {
         }
     }
 
+    function updatePowerup(powerup) {
+        console.log(powerup)
+        switch (powerup) {
+            case 'slow':
+                // Flip gravity value for 2000 ms
+                console.log('slow')
+                if (!powerupsInProgress.slow) {
+                    world.setGravity(Vec2(2,0))
+                    powerupsInProgress.slow = true
+                    setTimeout(() => {
+                        world.setGravity(defaultWorldVec2)
+                        powerupsInProgress.slow = false
+                    }, 2000)
+                }
+                break;
+            case 'random':
+                // Changes gravity randomly every 1s for 5s
+                console.log('random')
+                if (!powerupsInProgress.random) {
+                    powerupsInProgress.random = true
+                    for (var i = 0; i < 5; i++) {
+                        (function(ind) {
+                            if (ind == 0) {
+                                world.setGravity(Vec2(Math.random(10) * 10 - 5, Math.random(10) * 10 - 5))
+                            }
+                            setTimeout(function(){
+                                if (ind == 4) {
+                                    powerupsInProgress.random = false
+                                    world.setGravity(defaultWorldVec2)
+                                } else if (ind != 1) {
+                                    world.setGravity(Vec2(Math.random(10) * 10 - 5, Math.random(10) * 10 - 5))
+                                }
+                            }, 1000 + (1000 * ind));
+                        })(i);
+                    }
+                }
+                break;
+            case 'invulnerable':
+                // Makes player invulnerable for 3s
+                console.log('invulnerable')
+                if (!powerupsInProgress.invulnerable) {
+                    powerupsInProgress.invulnerable = true
+                    setTimeout(() => {
+                        powerupsInProgress.invulnerable = false
+                    }, 3000)
+                }
+                break;
+            default:
+                null
+        }
+
+    }
+
     function updateScoreBox(points) {
-        if (!pauseGame) {
+        if (!pauseGame && !powerupsInProgress.invulnerable) {
             playerScore += points;
             $(".scorevalue").text(playerScore)
             pointsAdded = points > 0 ? "+" + points : points
@@ -328,13 +389,13 @@ planck.testbed(function (testbed) {
         if (!pauseGame) {
             mouseY = convertToRange(event.clientY, windowYRange, worldYRange);
             if (!isNaN(mouseY)) {
-                console.log("MOUSE MOVING")
-                console.log("mouse y: ", mouseY)
-                console.log("paddle position y: ", paddle.getPosition().y)
+                // console.log("MOUSE MOVING")
+                // console.log("mouse y: ", mouseY)
+                // console.log("paddle position y: ", paddle.getPosition().y)
                 linearVelocity = Vec2(0, (mouseY - paddle.getPosition().y) * accelFactor)
                 linearVelocity.y = isNaN(linearVelocity.y) ? 0 : linearVelocity.y
                 paddle.setLinearVelocity(linearVelocity)
-                console.log("linear velocity", linearVelocity.x, linearVelocity.y)
+                // console.log("linear velocity", linearVelocity.x, linearVelocity.y)
                 // xdiff = mouseX - paddle.getPosition().x > 0 ? 100 : -100
                 // paddle.setPosition(Vec2(mouseX,0))
             }
@@ -432,16 +493,29 @@ planck.testbed(function (testbed) {
                 restitution: BEAD_RESTITUTION,
                 userData: {
                     name: beadFixedDef.userData.name,
-                    points: 3
+                    points: 3,
+                    powerup: null// null, 'slow' 
                 }
             };
 
             var randVal = Math.random();
 
-            if (randVal > 0.8) {
+            if (randVal > 0.95) {
+                beadColor.fill = '#800080'
+                beadWidthFactor = 0.007
+                fd.userData.powerup = 'slow'
+            } else if (randVal > 0.90) {
+                beadColor.fill = '#FFFF00'
+                beadWidthFactor = 0.020
+                fd.userData.powerup = 'random'
+            } else if (randVal > 0.87) {
+                beadColor.fill = '#808080'
+                beadWidthFactor = 0.007
+                fd.userData.powerup = 'invulnerable'
+            } else if (randVal > 0.8) {
                 //   green ball, - 20
                 beadColor.fill = '#32CD32'
-                beadWidthFactor = 0.007
+                beadWidthFactor = 0.012
                 fd.userData.points = -20;
             } else if (randVal < 0.2) {
                 //  Red Ball, - 50
@@ -451,7 +525,7 @@ planck.testbed(function (testbed) {
             } else {
                 // White ball - 30
                 beadColor.fill = '#fff'
-                beadWidthFactor = 0.007
+                beadWidthFactor = 0.009
                 fd.userData.points = -30;
             }
 
