@@ -65,11 +65,8 @@ function runDetection() {
         // get the middle x value of the bounding box and map to paddle location
         model.renderPredictions(predictions, canvas, context, video);
         if (predictions[0]) {
-            console.log("prediction arr ", predictions)
             let midval = predictions[0].bbox[1] + (predictions[0].bbox[3] / 2) // CHANGED HERE Y COORDINATE INSTEAD
-            gamey = document.documentElement.clientHeight * (midval / video.height) // CHANGED HERE TO HEIGHT
-            console.log(gamey, document.documentElement.clientHeight)
-            console.log(document.documentElement.clientWidth)
+            gamey = document.body.clientHeight * (midval / video.height) // CHANGED HERE TO HEIGHT
             updatePaddleControl(gamey)
             console.log('Predictions: ', gamey);
 
@@ -150,12 +147,12 @@ $("input#sound").click(function () {
 function updatePaddleControl(y) {
     // gamex = x;
     let mouseY = convertToRange(y, windowYRange, worldYRange);
-    let linearVelocity = Vec2(0, (mouseY - paddle.getPosition().y) * accelFactor)
+    let lineaVelocity = Vec2(0, (mouseY - paddle.getPosition().y) * accelFactor)
     // paddle.setLinearVelocity(lineaVeloctiy)
     // paddle.setLinearVelocity(lineaVeloctiy)
-    linearVelocity.y = isNaN(linearVelocity.y) ? 0 : linearVelocity.y
-    paddle.setLinearVelocity(linearVelocity)
-    console.log("linear velocity", linearVelocity.x, linearVelocity.y)
+    lineaVelocity.y = isNaN(lineaVelocity.y) ? 0 : lineaVelocity.y
+    paddle.setLinearVelocity(lineaVelocity)
+    console.log("linear velocity", lineaVelocity.x, lineaVelocity.y)
 }
 
 
@@ -193,7 +190,7 @@ planck.testbed(function (testbed) {
 
     var playerScore = 0;
     windowYRange = [0, windowHeight]
-    worldYRange = [-(SPACE_HEIGHT / 2), SPACE_HEIGHT / 2]
+    worldYRange = [-(SPACE_WIDTH / 2), SPACE_WIDTH / 2]
 
 
     var characterBodies = [];
@@ -319,13 +316,8 @@ planck.testbed(function (testbed) {
         if (!pauseGame) {
             mouseY = convertToRange(event.clientY, windowYRange, worldYRange);
             if (!isNaN(mouseY)) {
-                console.log("MOUSE MOVING")
-                console.log("mouse y: ", mouseY)
-                console.log("paddle position y: ", paddle.getPosition().y)
                 linearVelocity = Vec2(0, (mouseY - paddle.getPosition().y) * accelFactor)
-                linearVelocity.y = isNaN(linearVelocity.y) ? 0 : linearVelocity.y
                 paddle.setLinearVelocity(linearVelocity)
-                console.log("linear velocity", linearVelocity.x, linearVelocity.y)
                 // xdiff = mouseX - paddle.getPosition().x > 0 ? 100 : -100
                 // paddle.setPosition(Vec2(mouseX,0))
             }
@@ -491,11 +483,11 @@ planck.testbed(function (testbed) {
     function stayPaddle(paddle) {
         var p = paddle.getPosition()
 
-        if (p.y < -SPACE_HEIGHT / 2) {
-            p.y = -SPACE_HEIGHT / 2
+        if (p.y < -SPACE_WIDTH / 2) {
+            p.y = -SPACE_WIDTH / 2
             paddle.setPosition(p)
-        } else if (p.y > SPACE_HEIGHT / 2) {
-            p.y = SPACE_HEIGHT / 2
+        } else if (p.y > SPACE_WIDTH / 2) {
+            p.y = SPACE_WIDTH / 2
             paddle.setPosition(p)
         }
     }
@@ -508,8 +500,8 @@ planck.testbed(function (testbed) {
     // If the body is out of space bounds, wrap it to the other side
     function wrap(body) {
         var p = body.getPosition();
-        p.x = wrapNumber(p.x, -SPACE_WIDTH / 2, SPACE_WIDTH / 2);
-        p.y = wrapNumber(p.y, -SPACE_HEIGHT / 2, SPACE_HEIGHT / 2);
+        p.y = wrapNumber(p.y, -SPACE_WIDTH / 2, SPACE_WIDTH / 2);
+        p.x = wrapNumber(p.x, -SPACE_HEIGHT / 2, SPACE_HEIGHT / 2);
         body.setPosition(p);
     }
 
