@@ -2,7 +2,7 @@ const video = document.getElementById("myvideo");
 const canvas = document.getElementById("canvas");
 const context = canvas.getContext("2d");
 let trackButton = document.getElementById("trackbutton");
-let updateNote = document.getElementById("updatenote");
+//let updateNote = document.getElementById("updatenote");
 
 let imgindex = 1
 let isVideo = false;
@@ -33,12 +33,12 @@ function startVideo() {
     handTrack.startVideo(video).then(function (status) {
         console.log("video started", status);
         if (status) {
-            updateNote.innerText = "Now tracking"
+            //updateNote.innerText = "Now tracking"
             isVideo = true
             window.localStorage.setItem('isVideo', true)
             runDetection()
         } else {
-            updateNote.innerText = "Please enable video"
+            //updateNote.innerText = "Please enable video"
         }
     });
 }
@@ -49,14 +49,14 @@ if (isVideo) {
 
 function toggleVideo() {
     if (!isVideo) {
-        updateNote.innerText = "Starting video"
+        //updateNote.innerText = "Starting video"
         startVideo();
     } else {
-        updateNote.innerText = "Stopping video"
+        //updateNote.innerText = "Stopping video"
         handTrack.stopVideo(video)
         isVideo = false;
         window.localStorage.setItem('isVideo', false)
-        updateNote.innerText = "Video stopped"
+        //updateNote.innerText = "Video stopped"
     }
 }
 
@@ -88,8 +88,8 @@ function runDetection() {
                 d.style.position = "absolute";
                 var p = paddle.getPosition();
                 d.style.zIndex = 2;
-                d.style.left = (p.x/SPACE_WIDTH*document.documentElement.clientWidth + 600) + 'px'; // HACK
-                d.style.bottom = (p.y/SPACE_HEIGHT*document.documentElement.clientHeight - 400) + 'px' ; // HACK
+                d.style.left = (p.x/SPACE_WIDTH*document.documentElement.clientWidth + 950) + 'px'; // HACK
+                d.style.bottom = (p.y/SPACE_HEIGHT*document.documentElement.clientHeight - 300) + 'px' ; // HACK
             } else if (predictions[0].label == 'face') {
                 console.log("Detection: face")
             }
@@ -114,7 +114,7 @@ function runDetection() {
 handTrack.load(modelParams).then(lmodel => {
     // detect objects in the image.
     model = lmodel
-    updateNote.innerText = "Loaded Model!"
+    //updateNote.innerText = "Loaded Model!"
     trackButton.disabled = false
 
     $(".overlaycenter").animate({
@@ -633,12 +633,12 @@ planck.testbed(function (testbed) {
         var p = paddle.getPosition();
         // console.log("paddle, ", p.x/SPACE_WIDTH*document.documentElement.clientWidth, p.y/SPACE_HEIGHT*document.documentElement.clientHeight)
         
-        d.style.left = (p.x/SPACE_WIDTH*document.documentElement.clientWidth + 450) + 'px'; // HACK
-        d.style.bottom = (p.y/SPACE_HEIGHT*document.documentElement.clientHeight - 400) + 'px' ; // HACK
+        d.style.left = (p.x/SPACE_WIDTH*document.documentElement.clientWidth + 850) + 'px'; // HACK
+        d.style.bottom = (p.y/SPACE_HEIGHT*document.documentElement.clientHeight - 250) + 'px' ; // HACK
 
 
-        e.style.left = (p.x/SPACE_WIDTH*document.documentElement.clientWidth + 450) + 'px'; // HACK
-        e.style.bottom = (p.y/SPACE_HEIGHT*document.documentElement.clientHeight - 800) + 'px' ; // HACK
+        e.style.left = (p.x/SPACE_WIDTH*document.documentElement.clientWidth + 900) + 'px'; // HACK
+        e.style.bottom = (p.y/SPACE_HEIGHT*document.documentElement.clientHeight - 1100) + 'px' ; // HACK
 
         if (easymode ? world.m_stepCount % 25 == 0 : world.m_stepCount % 10 == 0) {
             if (!pauseGame) {
