@@ -197,7 +197,7 @@ planck.testbed(function (testbed) {
     var paddleBodies = new Map();
 
     var globalTime = 0;
-    var CHARACTER_LIFETIME = 6000
+    var CHARACTER_LIFETIME = 140000
 
     start()
 
