@@ -323,15 +323,16 @@ planck.testbed(function (testbed) {
                 break;
 
             case 'force':
-                // Removes all Beads from the screen
+                // Pushes beads away from the paddle.
                 console.log('force')
                 for (var i = 0; i < characterBodies.length; i++) {
+                    // Pushes 'force' beads even further away. 
                     if (characterBodies[i].m_fixtureList.m_userData.name == 'force') {
-                        x_diff = 1000 * characterBodies[i].getPosition().x - paddle.getPosition().x
-                        y_diff = 1000 * characterBodies[i].getPosition().y - paddle.getPosition().y
+                        x_diff = 10 * (characterBodies[i].getPosition().x - paddle.getPosition().x)
+                        y_diff = 10 * (characterBodies[i].getPosition().y - paddle.getPosition().y)
                     } else {
-                        x_diff = characterBodies[i].getPosition().x - paddle.getPosition().x
-                        y_diff = characterBodies[i].getPosition().y - paddle.getPosition().y
+                        x_diff = 0.2 * (characterBodies[i].getPosition().x - paddle.getPosition().x)
+                        y_diff = 0.2 * (characterBodies[i].getPosition().y - paddle.getPosition().y)
                     }
                     characterBodies[i].setLinearVelocity(Vec2(x_diff, y_diff))
                 }
@@ -606,7 +607,9 @@ planck.testbed(function (testbed) {
 
             characterBody.dieTime = globalTime + CHARACTER_LIFETIME
             
-            characterBody.setLinearVelocity(Vec2(0, 75 * (Math.random() - 0.5)))
+            // Setting initial velocity to the bead
+            characterBody.setLinearVelocity(Vec2(0, 25 * (Math.random() - 0.5)))
+
             characterBodies.push(characterBody);
         }
 
