@@ -506,14 +506,11 @@ planck.testbed(function (testbed) {
             position: Vec2(-(0.4 * SPACE_WIDTH / 2), -(0.25 * SPACE_HEIGHT))
         })
         paddleLines = [
-            [1.8, -0.1],
-            [1.8, 0.1],
-            [1.2, 0.4],
-            [0.4, 0.6],
-            [-2.4, 0.6],
-            [-3.2, 0.4],
-            [-3.8, 0.1],
-            [-3.8, -0.1]
+            [9,0.5],
+            [15,-4],
+            [9,-4],
+            [15,0.5]
+
         ]
 
         n = 10, radius = SPACE_WIDTH * 0.03, paddlePath = [], paddlePath = []
@@ -524,8 +521,8 @@ planck.testbed(function (testbed) {
 
         paddle.createFixture(pl.Polygon(paddlePath), paddleFixedDef)
         paddle.render = {
-            fill: '#ff8800',
-            stroke: '#000000'
+            fill: '#222222',
+            stroke: '#222222'
         }
     }
 
