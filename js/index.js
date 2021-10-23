@@ -9,6 +9,7 @@ let isVideo = false;
 if (window.localStorage.getItem('isVideo')) {
     isVideo = (window.localStorage.getItem('isVideo') == 'true')
 }
+
 let model = null;
 let videoInterval = 100
 
@@ -158,9 +159,8 @@ var maxNumberPaddles = 10;
 windowHeight = window.innerHeight
 windowWidth = window.innerWidth
 
-var bounceClip = new Audio('http://victordibia.com/skyfall/bounce.wav');
-bounceClip.type = 'audio/wav';
 var enableAudio = false;
+var soundtrack = choose_soundtrack()
 var pauseGame = false;
 var pauseGameAnimationDuration = 500;
 var endGame = false;
@@ -169,7 +169,35 @@ $("input#sound").click(function () {
     enableAudio = $(this).is(':checked')
     soundtext = enableAudio ? "sound on" : "sound off";
     $(".soundofftext").text(soundtext)
+    playClip(soundtrack)
 });
+
+// Controls the music playing
+function playClip(clip) {
+    if (enableAudio) {
+        clip.play()
+    } else {
+        clip.pause()
+    }
+}
+
+function choose_soundtrack() {
+    i = Math.floor(Math.random() * 5)
+     
+    if (i == 0) {
+        var bounceClip = new Audio('../static/soundtrack1.wav')
+    } else if (i == 1) {
+        var bounceClip = new Audio('../static/soundtrack2.wav')
+    } else if (i == 2) {
+        var bounceClip = new Audio('../static/soundtrack3.wav')
+    } else if (i == 3) {
+        var bounceClip = new Audio('../static/soundtrack4.wav')
+    } else if (i == 4) {
+        var bounceClip = new Audio('../static/soundtrack5.wav')
+    }
+    bounceClip.type = 'audio/wav'
+    return bounceClip
+}
 
 
 function updatePaddleControl(y) {
@@ -244,8 +272,6 @@ planck.testbed(function (testbed) {
         addUI()
     }
 
-
-
     // Remove paddles that are no longer in frame.
     function refreshMap(currentMap) {
         paddleBodies.forEach(function (item, key, mapObj) {
@@ -289,7 +315,6 @@ planck.testbed(function (testbed) {
     function paddleBeadHit(paddle, bead) {
         // console.log("attempting stroke change", bead.getUserData());
         //console.log("bead points ",bead.getUserData().points);
-        playClip(bounceClip)
         beadData = bead.getUserData()
         if (beadData.powerup) {
             // If bead hit is powerup bead
@@ -297,12 +322,6 @@ planck.testbed(function (testbed) {
         } else {
             // If bead hit is point bead
             updateScoreBox(beadData.points);
-        }
-    }
-
-    function playClip(clip) {
-        if (enableAudio) {
-            clip.play()
         }
     }
 
@@ -636,7 +655,7 @@ planck.testbed(function (testbed) {
         var p = paddle.getPosition();
         // console.log("paddle, ", p.x/SPACE_WIDTH*document.documentElement.clientWidth, p.y/SPACE_HEIGHT*document.documentElement.clientHeight)
         
-        d.style.left = (p.x/SPACE_WIDTH*document.documentElement.clientWidth + 850) + 'px'; // HACK
+        d.style.left = (p.x/SPACE_WIDTH*document.documentElement.clientWidth + 650) + 'px'; // HACK
         d.style.bottom = (p.y/SPACE_HEIGHT*document.documentElement.clientHeight - 250) + 'px' ; // HACK
 
 
