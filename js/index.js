@@ -76,7 +76,7 @@ function runDetection() {
             // console.log("prediction arr ", predictions)
 
             // START HANDS CLOSED LOGIC
-            if (predictions[0].label != 'closed' && handClosedMeter > 0) {
+            if (predictions[0].label != 'closed' && handClosedMeter >= 0) {
                 handClosed = false
             } else {
                 handClosed = true
@@ -84,30 +84,35 @@ function runDetection() {
             // END HANDS CLOSED LOGIC
 
             if (predictions[0].label == 'point') {
-                console.log("Detection: point")
+                // console.log("Detection: point")
             } else if (predictions[0].label == 'open') {
-                console.log("Detection: open")
+                // console.log("Detection: open")
                 document.getElementById("lightsaber").style.visibility="hidden";
 
             } else if (predictions[0].label == 'closed') {
-                console.log("Detection: closed")
-                var d = document.getElementById('lightsaber');
-                d.style.visibility="visible";
-                d.style.position = "absolute";
-                var p = paddle.getPosition();
-                d.style.zIndex = 2;
-                d.style.left = (p.x/SPACE_WIDTH*document.documentElement.clientWidth + 950) + 'px'; // HACK
-                d.style.bottom = (p.y/SPACE_HEIGHT*document.documentElement.clientHeight - 300) + 'px' ; // HACK
+                if (handClosedMeter > 0) {
+                    // console.log("Detection: closed")
+                    var d = document.getElementById('lightsaber');
+                    d.style.visibility="visible";
+                    d.style.position = "absolute";
+                    var p = paddle.getPosition();
+                    d.style.zIndex = 2;
+                    d.style.left = (p.x/SPACE_WIDTH*document.documentElement.clientWidth + 950) + 'px'; // HACK
+                    d.style.bottom = (p.y/SPACE_HEIGHT*document.documentElement.clientHeight - 300) + 'px' ; // HACK
+                } else {
+                    document.getElementById("lightsaber").style.visibility="hidden"
+                }
+                
             } else if (predictions[0].label == 'face') {
-                console.log("Detection: face")
+                // console.log("Detection: face")
             }
             
             let midval = predictions[0].bbox[1] + (predictions[0].bbox[3] / 2) // CHANGED HERE Y COORDINATE INSTEAD
             gamey = document.documentElement.clientHeight * (midval / video.height) // CHANGED HERE TO HEIGHT
-            console.log(gamey, document.documentElement.clientHeight)
-            console.log(document.documentElement.clientWidth)
+            // console.log(gamey, document.documentElement.clientHeight)
+            // console.log(document.documentElement.clientWidth)
             updatePaddleControl(gamey)
-            console.log('Predictions: ', gamey);
+            // console.log('Predictions: ', gamey);
 
         }
         if (isVideo) {
@@ -675,10 +680,14 @@ planck.testbed(function (testbed) {
         // START HANDS CLOSED LOGIC
         if (handClosed && world.m_stepCount % 10 == 0 && handClosedMeter > 0) {
             handClosedMeter -= 1
-        } else if (!handClosed && world.m_stepCount % 25 == 0 && handClosedMeter < 100) {
+        } else if (!handClosed && world.m_stepCount % 17 == 0 && handClosedMeter < 100) {
             handClosedMeter += 1
+            console.log(handClosedMeter)
         }
-        console.log(handClosedMeter)
+        if (world.m_stepCount) {
+            document.getElementById("handClosedMeter").style.width = `${handClosedMeter}px`
+        }
+        // console.log(handClosedMeter)
 
         // END HANDS CLOSED LOGIC
         // wrap(box)
