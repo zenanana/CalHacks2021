@@ -481,7 +481,8 @@ planck.testbed(function (testbed) {
             if (playerScore < 0) {
                 playerScore = 0
             }
-            $(".healthvalue").text(playerScore)
+            playerScoreText =  '0'.repeat(4 - playerScore.toString().length) + playerScore.toString()
+            $(".healthvalue").text(playerScoreText)
             pointsAdded = points > 0 ? "+" + points : points
             $(".healthadded").text(pointsAdded)
             $(".healthadded").show().animate({
@@ -830,10 +831,10 @@ planck.testbed(function (testbed) {
         }
 
         // START HANDS CLOSED LOGIC
-        if (handClosed && world.m_stepCount % 10 == 0 && handClosedMeter > 0) {
+        if (handClosed && world.m_stepCount % 5 == 0 && handClosedMeter > 0) {
             handClosedMeter -= 1
             saber.setPosition(paddle.getPosition())
-        } else if (!handClosed && world.m_stepCount % 17 == 0 && handClosedMeter < 100) {
+        } else if (!handClosed && world.m_stepCount % 10 == 0 && handClosedMeter < 100) {
             handClosedMeter += 1
             console.log(handClosedMeter)
         }
