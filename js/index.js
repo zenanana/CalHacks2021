@@ -79,7 +79,8 @@ function runDetection() {
                 d.style.visibility="visible";
                 d.style.position = "absolute";
                 var p = paddle.getPosition();
-                d.style.left = (p.x/SPACE_WIDTH*document.documentElement.clientWidth + 450) + 'px'; // HACK
+                d.style.zIndex = 2;
+                d.style.left = (p.x/SPACE_WIDTH*document.documentElement.clientWidth + 600) + 'px'; // HACK
                 d.style.bottom = (p.y/SPACE_HEIGHT*document.documentElement.clientHeight - 400) + 'px' ; // HACK
             } else if (predictions[0].label == 'face') {
                 console.log("Detection: face")
