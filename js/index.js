@@ -634,7 +634,7 @@ planck.testbed(function (testbed) {
             stayPaddle(item.paddle)
         });
 
-        if (playerScore <= 900) {
+        if (playerScore <= 0) {
             endGamePlay('lose')
         }
     }
