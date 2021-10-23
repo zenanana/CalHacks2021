@@ -510,7 +510,6 @@ planck.testbed(function (testbed) {
             [15,-4],
             [9,-4],
             [15,0.5]
-
         ]
 
         n = 10, radius = SPACE_WIDTH * 0.03, paddlePath = [], paddlePath = []
