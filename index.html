@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+  <title>Handtrack.js : A library for prototyping realtime handtracking in the browser. </title>
+  <link rel="stylesheet" href="https://unpkg.com/carbon-components@latest/css/carbon-components.css" />
+  <link rel="stylesheet" href="css/track.css">
+  <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
+  <script src="https://unpkg.com/aframe-environment-component/dist/aframe-environment-component.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/n5ro/aframe-physics-system@v4.0.1/dist/aframe-physics-system.min.js"></script>
+  <script src="https://rawgit.com/bryik/aframe-bmfont-text-component/master/dist/aframe-bmfont-text-component.min.js"></script>
+</head>
+
+<body class="bx--body p20">
+  <!-- <img id="img" src="hand.jpg"/>  -->
+  <div style="z-index:100">
+    <div class="p20">
+      Handtrack.js allows you prototype handtracking interactions in the browser in 3 lines of code.
+    </div>
+    <div class="mb10">
+      <button  id="trackbutton" class="bx--btn bx--btn--secondary" type="button" disabled>
+        Toggle Video
+      </button>
+      <div id="updatenote" class="updatenote mt10"> loading model ..</div>
+    </div>
+    <video class="videobox canvasbox" autoplay="autoplay" id="myvideo"></video>
+    <canvas id="canvas" class="border canvasbox"></canvas>
+</div>
+
+  <script src="https://unpkg.com/carbon-components@latest/scripts/carbon-components.js"></script>
+  <script src="lib/handtrack.min.js"> </script>
+  <script src="js/index.js"></script>
+
+</body>
+
+</html>
