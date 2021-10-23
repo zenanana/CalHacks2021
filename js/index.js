@@ -605,7 +605,8 @@ planck.testbed(function (testbed) {
             characterBody.render = beadColor
 
             characterBody.dieTime = globalTime + CHARACTER_LIFETIME
-
+            
+            characterBody.setLinearVelocity(Vec2(0, 75 * (Math.random() - 0.5)))
             characterBodies.push(characterBody);
         }
 
