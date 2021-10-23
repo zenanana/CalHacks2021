@@ -3,6 +3,8 @@ by a team of four Berkeley students: Zenan, Chloe, Jin Wei, Jianzhi
 
 Submitted to CalHacks 2021
 
+![Star Whales 2021](https://raw.githubusercontent.com/zenanana/CalHacks2021/phaseii/static/whale200.gif?token=ACLM4S4ZURSAFPRX4KHRQWTBPXC2E)
+
 ## Inspiration
 
 ## What it does
