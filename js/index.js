@@ -73,7 +73,15 @@ function runDetection() {
         // get the middle x value of the bounding box and map to paddle location
         model.renderPredictions(predictions, canvas, context, video);
         if (predictions[0]) {
-            console.log("prediction arr ", predictions)
+            // console.log("prediction arr ", predictions)
+
+            // START HANDS CLOSED LOGIC
+            if (predictions[0].label != 'closed' && handClosedMeter > 0) {
+                handClosed = false
+            } else {
+                handClosed = true
+            }
+            // END HANDS CLOSED LOGIC
 
             if (predictions[0].label == 'point') {
                 console.log("Detection: point")
@@ -131,6 +139,8 @@ var colors = ["#69d2e7", "#a7dbd8", "#e0e4cc", "#f38630", "#fa6900", "#fe4365", 
 var colorindex = 0;
 
 
+// START GAME GLOBAL VARIABLES
+
 let windowYRange, worldYRange = 0
 let paddle
 let Vec2
@@ -164,6 +174,10 @@ var enableAudio = false;
 var pauseGame = false;
 var pauseGameAnimationDuration = 500;
 var endGame = false;
+var handClosed = false
+var handClosedMeter = 100;
+
+// END GAME GLOBAL VARIABLES
 
 $("input#sound").click(function () {
     enableAudio = $(this).is(':checked')
@@ -660,6 +674,16 @@ planck.testbed(function (testbed) {
                 }
             }
         }
+
+        // START HANDS CLOSED LOGIC
+        if (handClosed && world.m_stepCount % 10 == 0 && handClosedMeter > 0) {
+            handClosedMeter -= 1
+        } else if (!handClosed && world.m_stepCount % 25 == 0 && handClosedMeter < 100) {
+            handClosedMeter += 1
+        }
+        console.log(handClosedMeter)
+
+        // END HANDS CLOSED LOGIC
         // wrap(box)
         wrap(paddle)
         paddleBodies.forEach(function (item, key, mapObj) {
