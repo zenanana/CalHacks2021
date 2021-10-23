@@ -1,4 +1,7 @@
 # Star Whales
+by a team of four Berkeley students: Zenan, Chloe, Jin Wei, Jianzhi
+
+Submitted to CalHacks 2021
 
 ## Inspiration
 
