@@ -88,8 +88,8 @@ function runDetection() {
                 d.style.position = "absolute";
                 var p = paddle.getPosition();
                 d.style.zIndex = 2;
-                d.style.left = (p.x/SPACE_WIDTH*document.documentElement.clientWidth + 600) + 'px'; // HACK
-                d.style.bottom = (p.y/SPACE_HEIGHT*document.documentElement.clientHeight - 400) + 'px' ; // HACK
+                d.style.left = (p.x/SPACE_WIDTH*document.documentElement.clientWidth + 950) + 'px'; // HACK
+                d.style.bottom = (p.y/SPACE_HEIGHT*document.documentElement.clientHeight - 300) + 'px' ; // HACK
             } else if (predictions[0].label == 'face') {
                 console.log("Detection: face")
             }
@@ -604,12 +604,12 @@ planck.testbed(function (testbed) {
         var p = paddle.getPosition();
         // console.log("paddle, ", p.x/SPACE_WIDTH*document.documentElement.clientWidth, p.y/SPACE_HEIGHT*document.documentElement.clientHeight)
         
-        d.style.left = (p.x/SPACE_WIDTH*document.documentElement.clientWidth + 450) + 'px'; // HACK
-        d.style.bottom = (p.y/SPACE_HEIGHT*document.documentElement.clientHeight - 400) + 'px' ; // HACK
+        d.style.left = (p.x/SPACE_WIDTH*document.documentElement.clientWidth + 850) + 'px'; // HACK
+        d.style.bottom = (p.y/SPACE_HEIGHT*document.documentElement.clientHeight - 250) + 'px' ; // HACK
 
 
-        e.style.left = (p.x/SPACE_WIDTH*document.documentElement.clientWidth + 450) + 'px'; // HACK
-        e.style.bottom = (p.y/SPACE_HEIGHT*document.documentElement.clientHeight - 800) + 'px' ; // HACK
+        e.style.left = (p.x/SPACE_WIDTH*document.documentElement.clientWidth + 900) + 'px'; // HACK
+        e.style.bottom = (p.y/SPACE_HEIGHT*document.documentElement.clientHeight - 1100) + 'px' ; // HACK
 
         if (easymode ? world.m_stepCount % 25 == 0 : world.m_stepCount % 10 == 0) {
             if (!pauseGame) {
