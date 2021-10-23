@@ -204,12 +204,12 @@ function updateSaberControl(y) {
 function updateHaloControl(y) {
     // gamex = x;
     let mouseY = convertToRange(y, windowYRange, worldYRange);
-    let linearVelocity = Vec2(0, (mouseY - halo.getPosition().y) * accelFactor)
+    let linearVelocity = Vec2(0, (mouseY - paddle.getPosition().y) * accelFactor)
     // paddle.setLinearVelocity(lineaVeloctiy)
     // paddle.setLinearVelocity(lineaVeloctiy)
     linearVelocity.y = isNaN(linearVelocity.y) ? 0 : linearVelocity.y
     halo.setLinearVelocity(linearVelocity)
-    console.log("linear velocity", linearVelocity.x, linearVelocity.y)
+
 }
 
 
@@ -577,7 +577,7 @@ planck.testbed(function (testbed) {
             type: "kinematic",
             filterCategoryBits: PADDLE,
             filterMaskBits: BEAD,
-            position: Vec2(-(0.4 * SPACE_WIDTH / 2), -(0.01 * SPACE_HEIGHT))
+            position:  Vec2(-(0.4 * SPACE_WIDTH / 2), -(0.1 * SPACE_HEIGHT))
         })
 
         paddleLines = [
@@ -732,14 +732,18 @@ planck.testbed(function (testbed) {
         var d = document.getElementById('whale');
         var e = document.getElementById('wave');
 
+        var h = document.getElementById('halo');
+
         // console.log("d here", d)
         // console.log("e here", e)
 
         d.style.position = "absolute";
         e.style.position = "absolute";
+        h.style.position = "absolute";
 
         // console.log("padd obj", paddle)
         var p = paddle.getPosition();
+        var ph = halo.getPosition();
         // console.log("paddle, ", p.x/SPACE_WIDTH*document.documentElement.clientWidth, p.y/SPACE_HEIGHT*document.documentElement.clientHeight)
         
         d.style.left = (p.x/SPACE_WIDTH*document.documentElement.clientWidth + 850) + 'px'; // HACK
@@ -748,6 +752,10 @@ planck.testbed(function (testbed) {
 
         e.style.left = (p.x/SPACE_WIDTH*document.documentElement.clientWidth + 900) + 'px'; // HACK
         e.style.bottom = (p.y/SPACE_HEIGHT*document.documentElement.clientHeight - 1100) + 'px' ; // HACK
+
+
+        h.style.left = (ph.x/SPACE_WIDTH*document.documentElement.clientWidth + 850) + 'px'; // HACK
+        h.style.bottom = (ph.y/SPACE_HEIGHT*document.documentElement.clientHeight - 350) + 'px' ; // HACK
 
         if (easymode ? world.m_stepCount % 25 == 0 : world.m_stepCount % 10 == 0) {
             if (!pauseGame) {
