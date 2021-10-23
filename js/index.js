@@ -492,6 +492,7 @@ planck.testbed(function (testbed) {
     }
 
     function endGamePlay(winlose) {
+        document.getElementById("whaleStatus").src="./static/deadwhale2.gif"
         clearInterval(timer_interval)
         highscore = localStorage.getItem('highscore')
         if (!highscore || timer_value > highscore) {
