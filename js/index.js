@@ -71,8 +71,17 @@ function runDetection() {
                 console.log("Detection: point")
             } else if (predictions[0].label == 'open') {
                 console.log("Detection: open")
+                document.getElementById("lightsaber").style.visibility="hidden";
+
             } else if (predictions[0].label == 'closed') {
                 console.log("Detection: closed")
+                var d = document.getElementById('lightsaber');
+                d.style.visibility="visible";
+                d.style.position = "absolute";
+                var p = paddle.getPosition();
+                d.style.zIndex = 2;
+                d.style.left = (p.x/SPACE_WIDTH*document.documentElement.clientWidth + 600) + 'px'; // HACK
+                d.style.bottom = (p.y/SPACE_HEIGHT*document.documentElement.clientHeight - 400) + 'px' ; // HACK
             } else if (predictions[0].label == 'face') {
                 console.log("Detection: face")
             }
@@ -131,7 +140,7 @@ var SPACE_HEIGHT = windowHeight / scale_factor;
 
 
 // Bead Details
-var NUM_BEADS = 12
+var NUM_BEADS = 6
 var BEAD_RESTITUTION = 0.7
 
 // Paddle Details
@@ -147,6 +156,7 @@ bounceClip.type = 'audio/wav';
 var enableAudio = false;
 var pauseGame = false;
 var pauseGameAnimationDuration = 500;
+var endGame = false;
 
 $("input#sound").click(function () {
     enableAudio = $(this).is(':checked')
@@ -201,7 +211,7 @@ planck.testbed(function (testbed) {
     testbed.width = SPACE_WIDTH;
     testbed.height = SPACE_HEIGHT;
 
-    var playerScore = 0;
+    var playerScore = 1000;
     windowYRange = [0, windowHeight]
     worldYRange = [-(SPACE_HEIGHT / 2), SPACE_HEIGHT / 2]
 
@@ -384,9 +394,20 @@ planck.testbed(function (testbed) {
 
     }
 
+    function endGamePlay(winlose) {
+        endGame = true
+        paddle.setLinearVelocity(Vec2(0, 0))
+        $(".pauseoverlay").show()
+        $(".overlaycenter").text("Game Over!")
+        $(".overlaycenter").animate({
+            opacity: 1,
+            fontSize: "4vw"
+        }, pauseGameAnimationDuration, function () {});
+    }
+
     // process mouse move and touch events
     function mouseMoveHandler(event) {
-        if (!pauseGame) {
+        if (!pauseGame && !endGame) {
             mouseY = convertToRange(event.clientY, windowYRange, worldYRange);
             if (!isNaN(mouseY)) {
                 // console.log("MOUSE MOVING")
@@ -405,6 +426,9 @@ planck.testbed(function (testbed) {
     }
 
     function addUI() {
+        // Update playerScore with JS variable
+        $(".scorevalue").text(playerScore)
+    
         addPaddle()
 
         // Add mouse movement listener to move paddle
@@ -543,7 +567,6 @@ planck.testbed(function (testbed) {
     }
 
     function tick(dt) {
-
         globalTime += dt;
         var d = document.getElementById('whale');
         var e = document.getElementById('wave');
@@ -561,10 +584,11 @@ planck.testbed(function (testbed) {
         d.style.left = (p.x/SPACE_WIDTH*document.documentElement.clientWidth + 450) + 'px'; // HACK
         d.style.bottom = (p.y/SPACE_HEIGHT*document.documentElement.clientHeight - 400) + 'px' ; // HACK
 
+
         e.style.left = (p.x/SPACE_WIDTH*document.documentElement.clientWidth + 450) + 'px'; // HACK
         e.style.bottom = (p.y/SPACE_HEIGHT*document.documentElement.clientHeight - 800) + 'px' ; // HACK
 
-        if (world.m_stepCount % 80 == 0) {
+        if (world.m_stepCount % 10 == 0) {
             if (!pauseGame) {
                 generateBeads(NUM_BEADS);
                 //console.log("car size", characterBodies.length);
@@ -587,7 +611,9 @@ planck.testbed(function (testbed) {
             stayPaddle(item.paddle)
         });
 
-
+        if (playerScore <= 900) {
+            endGamePlay('lose')
+        }
     }
 
     function stayPaddle(paddle) {
