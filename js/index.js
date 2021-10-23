@@ -110,7 +110,7 @@ let accelFactor
 
 // TestBed Details
 windowHeight = $(document).height()
-windowWidth = document.body.clientWidth
+windowWidth = document.documentElement.clientWidth
 
 console.log(windowHeight, windowWidth);
 
@@ -125,9 +125,6 @@ var BEAD_RESTITUTION = 0.7
 
 // Paddle Details
 accelFactor = 0.042 * SPACE_WIDTH;
-
-
-
 
 var paddleMap = new Map();
 var maxNumberPaddles = 10;
@@ -164,7 +161,7 @@ planck.testbed(function (testbed) {
     var pl = planck;
     Vec2 = pl.Vec2;
 
-    var world = pl.World(Vec2(0, -30));
+    var world = pl.World(Vec2(-2, 0));
     var BEAD = 4
     var PADDLE = 5
 
@@ -408,7 +405,7 @@ planck.testbed(function (testbed) {
                 type: 'dynamic',
                 filterCategoryBits: BEAD,
                 filterMaskBits: PADDLE,
-                position: Vec2(pl.Math.random(-(SPACE_WIDTH / 2), (SPACE_WIDTH / 2)), pl.Math.random((0.5 * SPACE_HEIGHT), 0.9 * SPACE_HEIGHT))
+                position: Vec2(pl.Math.random(0.95*(SPACE_WIDTH / 2), (SPACE_WIDTH / 2)), pl.Math.random(-(document.documentElement.clientHeight)/2, document.documentElement.clientHeight/2))
             });
 
 
