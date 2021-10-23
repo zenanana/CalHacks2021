@@ -6,6 +6,9 @@ let updateNote = document.getElementById("updatenote");
 
 let imgindex = 1
 let isVideo = false;
+if (window.localStorage.getItem('isVideo')) {
+    isVideo = (window.localStorage.getItem('isVideo') == 'true')
+}
 let model = null;
 let videoInterval = 100
 
@@ -32,11 +35,16 @@ function startVideo() {
         if (status) {
             updateNote.innerText = "Now tracking"
             isVideo = true
+            window.localStorage.setItem('isVideo', true)
             runDetection()
         } else {
             updateNote.innerText = "Please enable video"
         }
     });
+}
+console.log(isVideo)
+if (isVideo) {
+    startVideo()
 }
 
 function toggleVideo() {
@@ -47,10 +55,10 @@ function toggleVideo() {
         updateNote.innerText = "Stopping video"
         handTrack.stopVideo(video)
         isVideo = false;
+        window.localStorage.setItem('isVideo', false)
         updateNote.innerText = "Video stopped"
     }
 }
-
 
 
 trackButton.addEventListener("click", function () {
