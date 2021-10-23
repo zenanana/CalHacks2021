@@ -6,6 +6,9 @@ let updateNote = document.getElementById("updatenote");
 
 let imgindex = 1
 let isVideo = false;
+if (window.localStorage.getItem('isVideo')) {
+    isVideo = (window.localStorage.getItem('isVideo') == 'true')
+}
 let model = null;
 let videoInterval = 100
 
@@ -32,11 +35,16 @@ function startVideo() {
         if (status) {
             updateNote.innerText = "Now tracking"
             isVideo = true
+            window.localStorage.setItem('isVideo', true)
             runDetection()
         } else {
             updateNote.innerText = "Please enable video"
         }
     });
+}
+console.log(isVideo)
+if (isVideo) {
+    startVideo()
 }
 
 function toggleVideo() {
@@ -47,10 +55,10 @@ function toggleVideo() {
         updateNote.innerText = "Stopping video"
         handTrack.stopVideo(video)
         isVideo = false;
+        window.localStorage.setItem('isVideo', false)
         updateNote.innerText = "Video stopped"
     }
 }
-
 
 
 trackButton.addEventListener("click", function () {
@@ -138,7 +146,6 @@ var scale_factor = 10
 var SPACE_WIDTH = windowWidth / scale_factor;
 var SPACE_HEIGHT = windowHeight / scale_factor;
 
-
 // Bead Details
 var NUM_BEADS = 6
 var BEAD_RESTITUTION = 0.7
@@ -183,6 +190,7 @@ planck.testbed(function (testbed) {
     Vec2 = pl.Vec2;
     defaultWorldVec2 = Vec2(-6, 0)
     powerupsInProgress = {slow: false}
+    easymode = false
 
     var world = pl.World(defaultWorldVec2);
     var BEAD = 4
@@ -451,6 +459,9 @@ planck.testbed(function (testbed) {
     function addUI() {
         // Update playerScore with JS variable
         $(".healthvalue").text(playerScore)
+        $("#easymodetoggle").click(() => {
+            easymode = !easymode
+        })
     
         addPaddle()
 
@@ -617,9 +628,9 @@ planck.testbed(function (testbed) {
         d.style.position = "absolute";
         e.style.position = "absolute";
 
-        console.log("padd obj", paddle)
+        // console.log("padd obj", paddle)
         var p = paddle.getPosition();
-        console.log("paddle, ", p.x/SPACE_WIDTH*document.documentElement.clientWidth, p.y/SPACE_HEIGHT*document.documentElement.clientHeight)
+        // console.log("paddle, ", p.x/SPACE_WIDTH*document.documentElement.clientWidth, p.y/SPACE_HEIGHT*document.documentElement.clientHeight)
         
         d.style.left = (p.x/SPACE_WIDTH*document.documentElement.clientWidth + 450) + 'px'; // HACK
         d.style.bottom = (p.y/SPACE_HEIGHT*document.documentElement.clientHeight - 400) + 'px' ; // HACK
@@ -628,7 +639,7 @@ planck.testbed(function (testbed) {
         e.style.left = (p.x/SPACE_WIDTH*document.documentElement.clientWidth + 450) + 'px'; // HACK
         e.style.bottom = (p.y/SPACE_HEIGHT*document.documentElement.clientHeight - 800) + 'px' ; // HACK
 
-        if (world.m_stepCount % 10 == 0) {
+        if (easymode ? world.m_stepCount % 25 == 0 : world.m_stepCount % 10 == 0) {
             if (!pauseGame) {
                 generateBeads(NUM_BEADS);
                 //console.log("car size", characterBodies.length);
