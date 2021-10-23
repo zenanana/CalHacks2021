@@ -321,6 +321,23 @@ planck.testbed(function (testbed) {
                     }, 2000)
                 }
                 break;
+
+            case 'force':
+                // Removes all Beads from the screen
+                console.log('force')
+                for (var i = 0; i < characterBodies.length; i++) {
+                    if (characterBodies[i].m_fixtureList.m_userData.name == 'force') {
+                        x_diff = 1000 * characterBodies[i].getPosition().x - paddle.getPosition().x
+                        y_diff = 1000 * characterBodies[i].getPosition().y - paddle.getPosition().y
+                    } else {
+                        x_diff = characterBodies[i].getPosition().x - paddle.getPosition().x
+                        y_diff = characterBodies[i].getPosition().y - paddle.getPosition().y
+                    }
+                    characterBodies[i].setLinearVelocity(Vec2(x_diff, y_diff))
+                }
+                break;
+
+
             case 'random':
                 // Changes gravity randomly every 1s for 5s
                 console.log('random')
@@ -533,9 +550,9 @@ planck.testbed(function (testbed) {
                 density: beadFixedDef.density,
                 restitution: BEAD_RESTITUTION,
                 userData: {
-                    name: beadFixedDef.userData.name,
+                    name: beadFixedDef.userData.name, // Default name 'bead'
                     points: 3,
-                    powerup: null// null, 'slow' 
+                    powerup: null // null, 'slow' 
                 }
             };
 
@@ -545,29 +562,40 @@ planck.testbed(function (testbed) {
                 beadColor.fill = '#800080'
                 beadWidthFactor = 0.007
                 fd.userData.powerup = 'slow'
+                fd.userData.name = 'slow'
             } else if (randVal > 0.90) {
                 beadColor.fill = '#FFFF00'
                 beadWidthFactor = 0.020
                 fd.userData.powerup = 'random'
+                fd.userData.name = 'random'
             } else if (randVal > 0.87) {
                 beadColor.fill = '#808080'
                 beadWidthFactor = 0.007
                 fd.userData.powerup = 'invulnerable'
+                fd.userData.name = 'invulnerable'
+            } else if (randVal > 0.83) {
+                beadColor.fill = '#FFA500'
+                beadWidthFactor = 0.020
+                fd.userData.powerup = 'force'
+                fd.userData.name = 'force'
             } else if (randVal > 0.8) {
                 //   green ball, - 20
                 beadColor.fill = '#32CD32'
                 beadWidthFactor = 0.012
                 fd.userData.points = -20;
+                fd.userData.name = 'bead_20'
             } else if (randVal < 0.2) {
                 //  Red Ball, - 50
                 beadWidthFactor = 0.007
                 beadColor.fill = '#ff0000'
                 fd.userData.points = -50;
+                fd.userData.name = 'bead_50'
             } else {
                 // White ball - 30
                 beadColor.fill = '#fff'
                 beadWidthFactor = 0.009
                 fd.userData.points = -30;
+                fd.userData.name = 'bead_30'
             }
 
 
@@ -577,7 +605,8 @@ planck.testbed(function (testbed) {
             characterBody.render = beadColor
 
             characterBody.dieTime = globalTime + CHARACTER_LIFETIME
-
+            
+            characterBody.setLinearVelocity(Vec2(0, 75 * (Math.random() - 0.5)))
             characterBodies.push(characterBody);
         }
 
