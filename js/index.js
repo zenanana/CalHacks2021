@@ -293,7 +293,8 @@ planck.testbed(function (testbed) {
             }, 500, function () {
                 $(this).css({
                     fontSize: "2vw",
-                    opacity: 1
+                    opacity: 1,
+                    color: "#ff0000"
                 }).hide()
             });
         }
@@ -438,20 +439,20 @@ planck.testbed(function (testbed) {
             var randVal = Math.random();
 
             if (randVal > 0.8) {
-                //   green ball, + 20
+                //   green ball, - 20
                 beadColor.fill = '#32CD32'
                 beadWidthFactor = 0.007
-                fd.userData.points = 20;
+                fd.userData.points = -20;
             } else if (randVal < 0.2) {
-                //  Red Ball, - 10
+                //  Red Ball, - 50
                 beadWidthFactor = 0.007
                 beadColor.fill = '#ff0000'
-                fd.userData.points = -10;
+                fd.userData.points = -50;
             } else {
-                // White ball +10
+                // White ball - 30
                 beadColor.fill = '#fff'
                 beadWidthFactor = 0.007
-                fd.userData.points = 10;
+                fd.userData.points = -30;
             }
 
 
