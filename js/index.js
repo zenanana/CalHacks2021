@@ -66,6 +66,17 @@ function runDetection() {
         model.renderPredictions(predictions, canvas, context, video);
         if (predictions[0]) {
             console.log("prediction arr ", predictions)
+
+            if (predictions[0].label == 'point') {
+                console.log("Detection: point")
+            } else if (predictions[0].label == 'open') {
+                console.log("Detection: open")
+            } else if (predictions[0].label == 'closed') {
+                console.log("Detection: closed")
+            } else if (predictions[0].label == 'face') {
+                console.log("Detection: face")
+            }
+            
             let midval = predictions[0].bbox[1] + (predictions[0].bbox[3] / 2) // CHANGED HERE Y COORDINATE INSTEAD
             gamey = document.documentElement.clientHeight * (midval / video.height) // CHANGED HERE TO HEIGHT
             console.log(gamey, document.documentElement.clientHeight)
