@@ -9,6 +9,7 @@ let isVideo = false;
 if (window.localStorage.getItem('isVideo')) {
     isVideo = (window.localStorage.getItem('isVideo') == 'true')
 }
+
 let model = null;
 let videoInterval = 100
 
@@ -64,7 +65,6 @@ function toggleVideo() {
 trackButton.addEventListener("click", function () {
     toggleVideo();
 });
-
 
 
 function runDetection() {
@@ -187,9 +187,12 @@ var maxNumberPaddles = 10;
 windowHeight = window.innerHeight
 windowWidth = window.innerWidth
 
-var bounceClip = new Audio('http://victordibia.com/skyfall/bounce.wav');
-bounceClip.type = 'audio/wav';
 var enableAudio = false;
+var soundtrack = choose_soundtrack()
+var damage_sound = new Audio('../static/damage.wav')
+var menu_sound = new Audio('../static/menu.wav')
+var powerup_sound = new Audio('../static/powerup.wav')
+
 var pauseGame = false;
 var pauseGameAnimationDuration = 500;
 var endGame = false;
@@ -202,7 +205,38 @@ $("input#sound").click(function () {
     enableAudio = $(this).is(':checked')
     soundtext = enableAudio ? "sound on" : "sound off";
     $(".soundofftext").text(soundtext)
+    if (enableAudio) {
+        soundtrack.play()
+    } else {
+        soundtrack.pause()
+    }
 });
+
+
+function choose_soundtrack() {
+    i = Math.floor(Math.random() * 5)
+    if (i == 0) {
+        var bounceClip = new Audio('../static/soundtrack1.wav')
+    } else if (i == 1) {
+        var bounceClip = new Audio('../static/soundtrack2.wav')
+    } else if (i == 2) {
+        var bounceClip = new Audio('../static/soundtrack3.wav')
+    } else if (i == 3) {
+        var bounceClip = new Audio('../static/soundtrack4.wav')
+    } else if (i == 4) {
+        var bounceClip = new Audio('../static/soundtrack5.wav')
+    }
+    // bounceClip.type = 'audio/wav'
+    return bounceClip
+}
+
+
+// This function is only for sound effects, not for soundtrack. 
+function playSoundEffect(sound) {
+    if (enableAudio) {
+        sound.play()
+    }
+}
 
 
 function updatePaddleControl(y) {
@@ -313,8 +347,6 @@ planck.testbed(function (testbed) {
         addUI()
     }
 
-
-
     // Remove paddles that are no longer in frame.
     function refreshMap(currentMap) {
         paddleBodies.forEach(function (item, key, mapObj) {
@@ -358,22 +390,17 @@ planck.testbed(function (testbed) {
     function paddleBeadHit(paddle, bead) {
         // console.log("attempting stroke change", bead.getUserData());
         //console.log("bead points ",bead.getUserData().points);
-        playClip(bounceClip)
         beadData = bead.getUserData()
         if (beadData.powerup) {
             // If bead hit is powerup bead
+            playSoundEffect(powerup_sound)
             updatePowerup(beadData.powerup)
         } else {
             // If bead hit is point bead
+            playSoundEffect(damage_sound)
             updateScoreBox(beadData.points);
             document.getElementById("whale").src="./static/hurtwhale.gif"
             setTimeout(() => {document.getElementById("whale").src="./static/whale200.gif"}, 5000)
-        }
-    }
-
-    function playClip(clip) {
-        if (enableAudio) {
-            clip.play()
         }
     }
 
@@ -449,9 +476,13 @@ planck.testbed(function (testbed) {
     }
 
     function updateScoreBox(points) {
-        if (!pauseGame && !powerupsInProgress.invulnerable) {
+        if (!pauseGame && !powerupsInProgress.invulnerable && !endGame) {
             playerScore += points;
-            $(".healthvalue").text(playerScore)
+            if (playerScore < 0) {
+                playerScore = 0
+            }
+            playerScoreText =  '0'.repeat(4 - playerScore.toString().length) + playerScore.toString()
+            $(".healthvalue").text(playerScoreText)
             pointsAdded = points > 0 ? "+" + points : points
             $(".healthadded").text(pointsAdded)
             $(".healthadded").show().animate({
@@ -691,40 +722,40 @@ planck.testbed(function (testbed) {
             var randVal = Math.random();
 
             if (randVal > 0.95) {
-                beadColor.fill = '#800080'
+                beadColor.fill = '#800080' // Purple
                 beadWidthFactor = 0.007
                 fd.userData.powerup = 'slow'
                 fd.userData.name = 'slow'
             } else if (randVal > 0.90) {
-                beadColor.fill = '#FFFF00'
+                beadColor.fill = '#FFFF00' // Yellow
                 beadWidthFactor = 0.020
                 fd.userData.powerup = 'random'
                 fd.userData.name = 'random'
             } else if (randVal > 0.87) {
-                beadColor.fill = '#808080'
+                beadColor.fill = '#808080' // Grey
                 beadWidthFactor = 0.007
                 fd.userData.powerup = 'invulnerable'
                 fd.userData.name = 'invulnerable'
             } else if (randVal > 0.83) {
-                beadColor.fill = '#FFA500'
+                beadColor.fill = '#FFA500' // Orange
                 beadWidthFactor = 0.020
                 fd.userData.powerup = 'force'
                 fd.userData.name = 'force'
             } else if (randVal > 0.8) {
                 //   green ball, - 20
-                beadColor.fill = '#32CD32'
+                beadColor.fill = '#32CD32' // Green
                 beadWidthFactor = 0.012
                 fd.userData.points = -20;
                 fd.userData.name = 'bead_20'
             } else if (randVal < 0.2) {
                 //  Red Ball, - 50
                 beadWidthFactor = 0.007
-                beadColor.fill = '#ff0000'
+                beadColor.fill = '#ff0000' // Red
                 fd.userData.points = -50;
                 fd.userData.name = 'bead_50'
             } else {
                 // White ball - 30
-                beadColor.fill = '#fff'
+                beadColor.fill = '#fff' // White
                 beadWidthFactor = 0.009
                 fd.userData.points = -30;
                 fd.userData.name = 'bead_30'
@@ -771,7 +802,7 @@ planck.testbed(function (testbed) {
         var ph = halo.getPosition();
         // console.log("paddle, ", p.x/SPACE_WIDTH*document.documentElement.clientWidth, p.y/SPACE_HEIGHT*document.documentElement.clientHeight)
         
-        d.style.left = (p.x/SPACE_WIDTH*document.documentElement.clientWidth + 850) + 'px'; // HACK
+        d.style.left = (p.x/SPACE_WIDTH*document.documentElement.clientWidth + 650) + 'px'; // HACK
         d.style.bottom = (p.y/SPACE_HEIGHT*document.documentElement.clientHeight - 250) + 'px' ; // HACK
 
 
@@ -801,10 +832,10 @@ planck.testbed(function (testbed) {
         }
 
         // START HANDS CLOSED LOGIC
-        if (handClosed && world.m_stepCount % 10 == 0 && handClosedMeter > 0) {
+        if (handClosed && world.m_stepCount % 5 == 0 && handClosedMeter > 0) {
             handClosedMeter -= 1
             saber.setPosition(paddle.getPosition())
-        } else if (!handClosed && world.m_stepCount % 17 == 0 && handClosedMeter < 100) {
+        } else if (!handClosed && world.m_stepCount % 10 == 0 && handClosedMeter < 100) {
             handClosedMeter += 1
             console.log(handClosedMeter)
         }
