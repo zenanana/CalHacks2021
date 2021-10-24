@@ -90,14 +90,30 @@ function runDetection() {
             }
             // END HANDS CLOSED LOGIC
 
+            if (predictions[idx].label != 'point') {
+                handPoint = false
+            } else {
+                handPoint = true
+            }
+
             if (predictions[idx].label == 'point') {
                 console.log("WE ARE HERHERHEHRHEH")
-                var h = document.getElementById("halo"); 
+                console.log("halo.x ", halo.getPosition().x)
+                console.log("halo.y ", halo.getPosition().y)
+                console.log("pd.x ", paddle.getPosition().x)
+                console.log("pd.y ", paddle.getPosition().y)
+                var h = document.getElementById("halo");
+
                 h.style.visibility="visible"; 
                 h.style.position="absolute"; 
-                var p = paddle.getPosition(); 
-                h.style.left = (p.x/SPACE_WIDTH*document.documentElement.clientWidth + 950) + 'px'; // HACK
-                h.style.bottom = (p.y/SPACE_HEIGHT*document.documentElement.clientHeight + 100) + 'px' ; // HACK
+                // var p = paddle.getPosition(); 
+                // console.log("p.x ", p.x);
+                // console.log("p.y ", p.y)
+                // /h.style.zIndex = 2;
+                //h.style.left = (p.x/SPACE_WIDTH*document.documentElement.clientWidth + 200) + 'px'; // HACK
+                //h.style.bottom = (p.y/SPACE_HEIGHT*document.documentElement.clientHeight + 250) + 'px' ; // HACK
+                //console.log("h.x ", (p.x/SPACE_WIDTH*document.documentElement.clientWidth + 200));
+                //console.log("h.y ", (p.y/SPACE_HEIGHT*document.documentElement.clientHeight + 250))
                 
                 // console.log("Detection: point")
                 // logic - set visibility of halo to be true
@@ -106,6 +122,7 @@ function runDetection() {
                 document.getElementById("lightsaber").style.visibility="hidden";
                 
                 saber.setPosition(Vec2(-10000, -(0.25 * SPACE_HEIGHT)))
+                halo.setPosition(Vec2(-10000, -(0.1 * SPACE_HEIGHT)))
 
             } else if (predictions[idx].label == 'closed') {
                 if (handClosedMeter > 0) {
@@ -121,9 +138,11 @@ function runDetection() {
                     document.getElementById("lightsaber").style.visibility="hidden"
                     saber.setPosition(Vec2(-10000, -(0.25 * SPACE_HEIGHT)))
                 }
+                halo.setPosition(Vec2(-10000, -(0.1 * SPACE_HEIGHT)))
                 
             } else if (predictions[0].label == 'face') {
                 // console.log("Detection: face")
+                halo.setPosition(Vec2(-10000, -(0.1 * SPACE_HEIGHT)))
 
                 
             }
@@ -209,6 +228,8 @@ var pauseGameAnimationDuration = 500;
 var endGame = false;
 var handClosed = false
 var handClosedMeter = 100;
+var handPoint = false
+
 
 // END GAME GLOBAL VARIABLES
 
@@ -275,7 +296,7 @@ function updateSaberControl(y) {
 function updateHaloControl(y) {
     // gamex = x;
     let mouseY = convertToRange(y, windowYRange, worldYRange);
-    let linearVelocity = Vec2(0, (mouseY - paddle.getPosition().y) * accelFactor)
+    let linearVelocity = Vec2(0, (mouseY - halo.getPosition().y) * accelFactor)
     // paddle.setLinearVelocity(lineaVeloctiy)
     // paddle.setLinearVelocity(lineaVeloctiy)
     linearVelocity.y = isNaN(linearVelocity.y) ? 0 : linearVelocity.y
@@ -671,7 +692,7 @@ planck.testbed(function (testbed) {
         halo.createFixture(pl.Polygon(paddlePath), haloFixedDef)
         halo.render = {
             fill: '#FFFF00',
-            stroke: '#000000'
+            stroke: '#00FF00'
         }
     }
 
@@ -697,7 +718,6 @@ planck.testbed(function (testbed) {
 
         paddle.createFixture(pl.Polygon(paddlePath), paddleFixedDef)
         paddle.render = {
-            fill: '#222222',
             stroke: '#ff0000'
         }
     }
@@ -852,6 +872,12 @@ planck.testbed(function (testbed) {
         }
         if (world.m_stepCount) {
             document.getElementById("handClosedMeter").style.width = `${handClosedMeter}px`
+        }
+        if (handPoint && world.m_stepCount % 10 == 0){
+            console.log("SETTING POSITION")
+            var px = paddle.getPosition()
+            px.y = px.y + 20
+            halo.setPosition(px)
         }
         // console.log(handClosedMeter)
 
