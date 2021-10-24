@@ -12,7 +12,7 @@ Inspired by the combination of Star Wars features and an adorable whale riding c
 This video game serves as a fun, stress-reliever that provides users with a taste of the Xbox gaming experience, where you could activate the superpowers of the whale using hand gestures to protect it from the floating obstacles. 
 
 ## How we built it
-In incorporating controls through hand gestures into the video game, we utilised Handtrack.js, a library for prototyping realtime hand-detection. On top of that, we used Planck.js, a physics engine for game development, to build the collision detector which allows us to set up the point system for the game. 
+In incorporating controls through hand gestures into the video game, we utilized Handtrack.js, a library for prototyping realtime hand-detection. On top of that, we used Planck.js, a physics engine for game development, to build the collision detector which allows us to set up the point system for the game. 
 
 ## Challenges we ran into
 We were faced with the challenges of coming up with the configurations of the obstacles and superpowers but we had fun building superpowers for our adorable whale.  
