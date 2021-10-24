@@ -13,12 +13,12 @@
 <body class="bx--body p20" style="height:100%;overflow:hidden">
     <div class="infordisplay ">
         <div class="toprow">
-            <img src="./static/whale75.gif" style="height:75px;width:75px" class="icon  floatleft " id="whaleStatus"/>
             <div class="scorebox  iblock ">
-                <div class="healthvalue inscore"> 0 </div>
                 <div class="healthlabel inscore"> ❤️ </div>
+                <div class="healthvalue inscore"> 0 </div>
                 <div class="healthadded inscore"> </div>
             </div>
+            <img src="./static/whale75.gif" style="height:75px;width:75px" class="icon  floatleft " id="whaleStatus"/>
             
             <div class="scorebox iblock">
                 <!-- <div class="inscore">⚡</div> -->
@@ -29,20 +29,18 @@
                             <!-- <div class="inscore">⚡</div> -->
                 <div class="inscore">
                     <svg width="100" height="20">
-                        <rect id="handClosedMeter" width="100" height="20" style="fill:rgb(0,0,255);stroke-width:3;stroke:rgb(0,0,0)" />
+                        <rect class="lightsaberBar" id="handClosedMeter" width="100" height="20" rx="8"/>
                     </svg>
                 </div>
             </div>
             <br></br>
             <div class="scorebox  iblock ">
-                <div class="timervalue inscore"> 0 </div>
                 <div class="timerlabel inscore"> ⏳ </div>
+                <div class="timervalue inscore"> 0 </div>
                 <div class="timeradded inscore"> </div>
             </div>
             <div class="scorebox iblock">
-                <div class="inscore">
-                    Easy Mode
-                </div>
+                <div class="inscore easyModeLabel">Easy Mode (e)</div>
                 <div class="inscore">
                     <label class="switch">
                         <input id="easymodetoggle" type="checkbox" checked>
@@ -66,7 +64,9 @@
                         <span class="slider round"></span>
                     </label>
                 </div>
-                <div class="  iblock soundofftext"> sound off</div>
+                <div class="  iblock soundofftext">
+                    <p>sound off</p>
+                </div>
                 <div class="clear"></div>
             </div>
 
@@ -88,13 +88,14 @@
   <canvas id="canvas" class="border canvasbox"></canvas>
 
     <div class="pauseoverlay">
-        <div class="overlaycenter">
-            Loading Handtrack.js Model ..
-        </div>
+        
         <div class="overlaymenu">
             <button class="greenButton">
-                Start Game
+                Please wait for load...
             </button>
+            <div class="overlaycenter">
+                Loading Handtrack.js Model ..
+            </div>
         </div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/planck-js/0.1.44/planck-with-testbed.js"></script>
