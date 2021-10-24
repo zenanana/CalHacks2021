@@ -315,6 +315,11 @@ input:checked + .slider:before {
     stroke-width:0;
 }
 
+.haloBar {
+    fill:#C3B1E1;
+    stroke-width:0;
+}
+
 .easyModeLabel {
     font-size: 15px;
 }
