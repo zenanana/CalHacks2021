@@ -276,7 +276,7 @@ input:checked + .slider:before {
 .overlaymenu {
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    height: 75vh;
     justify-content: center;
     align-content: center;
     align-items: center
@@ -317,5 +317,78 @@ input:checked + .slider:before {
 
 .easyModeLabel {
     font-size: 15px;
+}
+
+.instructionsContainer {
+    display: flex;
+    padding-bottom: 10px;
+    flex-direction: column;
+    align-content: center;
+}
+
+.instructionsSubContainer {
+    display: flex;
+    padding-bottom: 10px
+}
+
+.instructions {
+    color: orange;
+    padding-left: 10px;
+}
+
+.purpleBeadInstructions {
+  height: 25px;
+  width: 25px;
+  background-color: #800080;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.yellowBeadInstructions {
+  height: 25px;
+  width: 25px;
+  background-color: #FFFF00;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.greyBeadInstructions {
+  height: 25px;
+  width: 25px;
+  background-color: #808080;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.orangeBeadInstructions {
+  height: 25px;
+  width: 25px;
+  background-color: #FFA500;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.greenBeadInstructions {
+  height: 25px;
+  width: 25px;
+  background-color: #32CD32;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.redBeadInstructions {
+  height: 25px;
+  width: 25px;
+  background-color: #ff0000;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.whiteBeadInstructions {
+  height: 25px;
+  width: 25px;
+  background-color: #fff;
+  border-radius: 50%;
+  display: inline-block;
 }
 /* END UI CUSTOM CSS */
