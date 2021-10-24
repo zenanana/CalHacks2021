@@ -11,23 +11,27 @@ Inspired by the combination of Star Wars features and an adorable whale riding c
 ## What it does
 This video game serves as a fun, stress-reliever that provides users with a taste of the Xbox gaming experience, where you could activate the superpowers of the whale using hand gestures to protect it from the floating obstacles. 
 
+1. ✋ Navigate your whale by the power of "force" (moving your palm up and down)
+2. ✊ Clench your fist to summon a lightsaber, which your whale can use to whack away debris
+3. 👆 Point upwards to trigger the halo shield, which protects your whale's water spout
+
 ## How we built it
 In incorporating controls through hand gestures into the video game, we utilized Handtrack.js, a library for prototyping realtime hand-detection. On top of that, we used Planck.js, a physics engine for game development, to build the collision detector which allows us to set up the point system for the game. 
 
 ## Challenges we ran into
-We were faced with the challenges of coming up with the configurations of the obstacles and superpowers but we had fun building superpowers for our adorable whale.  
+We were faced with the challenges of coming up with the configurations of the obstacles and superpowers, as well as the mapping physics world coordinates to browser coordinates, but we had fun building superpowers for our adorable whale.  
 
 ## Accomplishments that we're proud of
 
-👨‍💻 Deploying the game on [GitHub Pages](https://google.com)!
+👨‍💻 Deploying the game on GitHub Pages for everyone to enjoy! [Try it HERE!](https://zenanana.github.io/CalHacks2021/)
 
-💪 Getting a highscore of **170** without straining our arm muscles.
+💪 Getting a highscore of **420** without straining our arm muscles.
 
 😤 Finishing a proper hackathon submission before hell week (7 midterms + 1 essay)
 
 ## What we learned
-1. Physics engine with Plank.js
-2. Machine learning with Handtrack.js
+1. Hand and gesture tracking with ML model
+2. Physics world simulation with Planck.js
 
 ## What's next for Star Whales
 ⚡ More power ups! 
