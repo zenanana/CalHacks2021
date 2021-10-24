@@ -530,6 +530,7 @@ planck.testbed(function (testbed) {
         if (pauseGame) {
             paddle.setLinearVelocity(Vec2(0, 0))
             halo.setLinearVelocity(Vec2(0, 0))
+            saber.setLinearVelocity(Vec2(0, 0))
             $(".pauseoverlay").show()
             $(".overlaycenter").text("Game Paused")
             $(".overlaycenter").animate({
@@ -558,6 +559,7 @@ planck.testbed(function (testbed) {
         }
         endGame = true
         paddle.setLinearVelocity(Vec2(0, 0))
+        saber.setLinearVelocity(Vec2(0, 0))
         halo.setLinearVelocity(Vec2(0, 0))
         $(".pauseoverlay").show()
         $(".overlaycenter").text(`Game Over! Your score is ${timer_value}. Your highest score is ${highscore}.`)
@@ -570,11 +572,14 @@ planck.testbed(function (testbed) {
     // process mouse move and touch events
     function mouseMoveHandler(event) {
         if (!pauseGame && !endGame) {
+            console.log("event.clientY: ", event.clientY)
             mouseY = convertToRange(event.clientY, windowYRange, worldYRange);
             if (!isNaN(mouseY)) {
                 // console.log("MOUSE MOVING")
                 // console.log("mouse y: ", mouseY)
                 // console.log("paddle position y: ", paddle.getPosition().y)
+                console.log("mouseY: ", mouseY)
+                console.log("paddle.y ", paddle.getPosition().y)
                 linearVelocity = Vec2(0, (mouseY - paddle.getPosition().y) * accelFactor)
                 linearVelocity.y = isNaN(linearVelocity.y) ? 0 : linearVelocity.y
                 paddle.setLinearVelocity(linearVelocity)
@@ -833,16 +838,18 @@ planck.testbed(function (testbed) {
         var ph = halo.getPosition();
         // console.log("paddle, ", p.x/SPACE_WIDTH*document.documentElement.clientWidth, p.y/SPACE_HEIGHT*document.documentElement.clientHeight)
         
-        d.style.left = (p.x/SPACE_WIDTH*document.documentElement.clientWidth + 650) + 'px'; // HACK
-        d.style.bottom = (p.y/SPACE_HEIGHT*document.documentElement.clientHeight - 250) + 'px' ; // HACK
+        d.style.left = ((SPACE_WIDTH/2+p.x)/SPACE_WIDTH*windowWidth) + 'px'; // HACK
+        d.style.top = ((SPACE_HEIGHT/2-p.y)/SPACE_HEIGHT*windowHeight) + 'px' ; // HACK
 
 
         // e.style.left = (p.x/SPACE_WIDTH*document.documentElement.clientWidth + 900) + 'px'; // HACK
         // e.style.bottom = (p.y/SPACE_HEIGHT*document.documentElement.clientHeight - 1100) + 'px' ; // HACK
 
+        h.style.left = ((SPACE_WIDTH/2+ph.x)/SPACE_WIDTH*windowWidth) + 'px'; // HACK
+        h.style.top = ((SPACE_HEIGHT/2-ph.y)/SPACE_HEIGHT*windowHeight) + 'px' ; // HACK
 
-        h.style.left = (ph.x/SPACE_WIDTH*document.documentElement.clientWidth + 850) + 'px'; // HACK
-        h.style.bottom = (ph.y/SPACE_HEIGHT*document.documentElement.clientHeight - 350) + 'px' ; // HACK
+        // h.style.left = (ph.x/SPACE_WIDTH*document.documentElement.clientWidth + 850) + 'px'; // HACK
+        // h.style.bottom = (ph.y/SPACE_HEIGHT*document.documentElement.clientHeight - 350) + 'px' ; // HACK
 
         if (easymode ? world.m_stepCount % 25 == 0 : world.m_stepCount % 10 == 0) {
             if (!pauseGame) {
@@ -939,6 +946,7 @@ planck.testbed(function (testbed) {
 
 function convertToRange(value, srcRange, dstRange) {
     // value is outside source range return
+    console.log(srcRange, dstRange)
     if (value < srcRange[0] || value > srcRange[1]) {
         return NaN;
     }
