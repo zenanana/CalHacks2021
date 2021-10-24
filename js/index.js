@@ -723,28 +723,28 @@ planck.testbed(function (testbed) {
 
             if (randVal > 0.95) {
                 beadColor.fill = '#800080' // Purple
-                beadWidthFactor = 0.007
+                beadWidthFactor = 0.010
                 fd.userData.powerup = 'slow'
                 fd.userData.name = 'slow'
             } else if (randVal > 0.90) {
                 beadColor.fill = '#FFFF00' // Yellow
-                beadWidthFactor = 0.020
+                beadWidthFactor = 0.010
                 fd.userData.powerup = 'random'
                 fd.userData.name = 'random'
             } else if (randVal > 0.87) {
                 beadColor.fill = '#808080' // Grey
-                beadWidthFactor = 0.007
+                beadWidthFactor = 0.010
                 fd.userData.powerup = 'invulnerable'
                 fd.userData.name = 'invulnerable'
             } else if (randVal > 0.83) {
                 beadColor.fill = '#FFA500' // Orange
-                beadWidthFactor = 0.020
+                beadWidthFactor = 0.010
                 fd.userData.powerup = 'force'
                 fd.userData.name = 'force'
             } else if (randVal > 0.8) {
                 //   green ball, - 20
                 beadColor.fill = '#32CD32' // Green
-                beadWidthFactor = 0.012
+                beadWidthFactor = 0.007
                 fd.userData.points = -20;
                 fd.userData.name = 'bead_20'
             } else if (randVal < 0.2) {
@@ -756,7 +756,7 @@ planck.testbed(function (testbed) {
             } else {
                 // White ball - 30
                 beadColor.fill = '#fff' // White
-                beadWidthFactor = 0.009
+                beadWidthFactor = 0.007
                 fd.userData.points = -30;
                 fd.userData.name = 'bead_30'
             }
@@ -786,7 +786,7 @@ planck.testbed(function (testbed) {
     function tick(dt) {
         globalTime += dt;
         var d = document.getElementById('whale');
-        var e = document.getElementById('wave');
+        // var e = document.getElementById('wave');
 
         var h = document.getElementById('halo');
 
@@ -794,7 +794,7 @@ planck.testbed(function (testbed) {
         // console.log("e here", e)
 
         d.style.position = "absolute";
-        e.style.position = "absolute";
+        // e.style.position = "absolute";
         h.style.position = "absolute";
 
         // console.log("padd obj", paddle)
@@ -806,8 +806,8 @@ planck.testbed(function (testbed) {
         d.style.bottom = (p.y/SPACE_HEIGHT*document.documentElement.clientHeight - 250) + 'px' ; // HACK
 
 
-        e.style.left = (p.x/SPACE_WIDTH*document.documentElement.clientWidth + 900) + 'px'; // HACK
-        e.style.bottom = (p.y/SPACE_HEIGHT*document.documentElement.clientHeight - 1100) + 'px' ; // HACK
+        // e.style.left = (p.x/SPACE_WIDTH*document.documentElement.clientWidth + 900) + 'px'; // HACK
+        // e.style.bottom = (p.y/SPACE_HEIGHT*document.documentElement.clientHeight - 1100) + 'px' ; // HACK
 
 
         h.style.left = (ph.x/SPACE_WIDTH*document.documentElement.clientWidth + 850) + 'px'; // HACK
