@@ -157,7 +157,7 @@ handTrack.load(modelParams).then(lmodel => {
     trackButton.disabled = false
 
     startGameButton = $(".greenButton")
-    startGameButton.css({"background-color": "green"})
+    startGameButton.css({"background-color": "#77dd77"})
     startGameButton.text("Start Game")
 
     startGameButton.click(() => {
