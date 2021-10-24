@@ -855,7 +855,7 @@ planck.testbed(function (testbed) {
         h.style.left = (ph.x/SPACE_WIDTH*document.documentElement.clientWidth + 850) + 'px'; // HACK
         h.style.bottom = (ph.y/SPACE_HEIGHT*document.documentElement.clientHeight - 350) + 'px' ; // HACK
 
-        if (easymode ? world.m_stepCount % 25 == 0 : world.m_stepCount % 10 == 0) {
+        if (easymode ? world.m_stepCount % 18 == 0 : world.m_stepCount % 10 == 0) {
             if (!pauseGame) {
                 generateBeads(NUM_BEADS);
                 //console.log("car size", characterBodies.length);
