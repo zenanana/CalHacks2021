@@ -497,6 +497,7 @@ planck.testbed(function (testbed) {
 
     function updatePowerup(powerup) {
         console.log(powerup)
+        currentPowerupSpan = $("span#currentBead")
         switch (powerup) {
             case 'slow':
                 // Flip gravity value for 2000 ms
@@ -504,9 +505,11 @@ planck.testbed(function (testbed) {
                 if (!powerupsInProgress.slow) {
                     world.setGravity(Vec2(2,0))
                     powerupsInProgress.slow = true
+                    currentPowerupSpan.attr("class", "purpleBeadInstructions")
                     setTimeout(() => {
                         world.setGravity(defaultWorldVec2)
                         powerupsInProgress.slow = false
+                        currentPowerupSpan.attr("class", "blackBeadInstructions")
                     }, 2000)
                 }
                 break;
@@ -533,6 +536,7 @@ planck.testbed(function (testbed) {
                 console.log('random')
                 if (!powerupsInProgress.random) {
                     powerupsInProgress.random = true
+                    currentPowerupSpan.attr("class", "yellowBeadInstructions")
                     for (var i = 0; i < 5; i++) {
                         (function(ind) {
                             if (ind == 0) {
@@ -545,6 +549,7 @@ planck.testbed(function (testbed) {
                                 } else if (ind != 1) {
                                     world.setGravity(Vec2(Math.random(10) * 10 - 5, Math.random(10) * 10 - 5))
                                 }
+                                currentPowerupSpan.attr("class", "blackBeadInstructions")
                             }, 1000 + (1000 * ind));
                         })(i);
                     }
@@ -553,10 +558,12 @@ planck.testbed(function (testbed) {
             case 'invulnerable':
                 // Makes player invulnerable for 3s
                 console.log('invulnerable')
+                currentPowerupSpan.attr("class", "greyBeadInstructions")
                 if (!powerupsInProgress.invulnerable) {
                     powerupsInProgress.invulnerable = true
                     setTimeout(() => {
                         powerupsInProgress.invulnerable = false
+                        currentPowerupSpan.attr("class", "blackBeadInstructions")
                     }, 3000)
                 }
                 break;
@@ -825,46 +832,45 @@ planck.testbed(function (testbed) {
 
             var randVal = Math.random();
 
-            if (randVal > 0.95) {
+            if (randVal > 0.97) {
                 beadColor.fill = '#800080' // Purple
-                beadWidthFactor = 0.010
+                beadWidthFactor = 0.013
                 fd.userData.powerup = 'slow'
                 fd.userData.name = 'slow'
-            } else if (randVal > 0.90) {
+            } else if (randVal > 0.94) {
                 beadColor.fill = '#FFFF00' // Yellow
-                beadWidthFactor = 0.010
+                beadWidthFactor = 0.013
                 fd.userData.powerup = 'random'
                 fd.userData.name = 'random'
-            } else if (randVal > 0.87) {
+            } else if (randVal > 0.90) {
                 beadColor.fill = '#808080' // Grey
-                beadWidthFactor = 0.010
+                beadWidthFactor = 0.013
                 fd.userData.powerup = 'invulnerable'
                 fd.userData.name = 'invulnerable'
-            } else if (randVal > 0.83) {
+            } else if (randVal > 0.87) {
                 beadColor.fill = '#FFA500' // Orange
-                beadWidthFactor = 0.010
+                beadWidthFactor = 0.013
                 fd.userData.powerup = 'force'
                 fd.userData.name = 'force'
-            } else if (randVal > 0.8) {
+            } else if (randVal > 0.65) {
                 //   green ball, - 20
                 beadColor.fill = '#32CD32' // Green
-                beadWidthFactor = 0.007
+                beadWidthFactor = 0.005
                 fd.userData.points = -20;
                 fd.userData.name = 'bead_20'
-            } else if (randVal < 0.2) {
+            } else if (randVal > 0.47) {
                 //  Red Ball, - 50
-                beadWidthFactor = 0.007
+                beadWidthFactor = 0.005
                 beadColor.fill = '#ff0000' // Red
                 fd.userData.points = -50;
                 fd.userData.name = 'bead_50'
-            } else {
+            } else if (randVal > 0.3) {
                 // White ball - 30
                 beadColor.fill = '#fff' // White
-                beadWidthFactor = 0.007
+                beadWidthFactor = 0.005
                 fd.userData.points = -30;
                 fd.userData.name = 'bead_30'
             }
-
 
             var shape = pl.Circle(SPACE_WIDTH * beadWidthFactor);
             characterBody.createFixture(shape, fd);
