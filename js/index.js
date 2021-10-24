@@ -71,34 +71,44 @@ function runDetection() {
     model.detect(video).then(predictions => {
         // console.log("Predictions: ", predictions);
         // get the middle x value of the bounding box and map to paddle location
-        model.renderPredictions(predictions, canvas, context, video);
-        if (predictions[0]) {
+        var newPred = []
+        if (predictions[0]){
+            for (var i = 0; i < predictions.length; i++){
+                if (predictions[i].label == 'face') continue;
+                newPred.push(predictions[i]);
+            }
+        }
+        model.renderPredictions(newPred, canvas, context, video);
+        if (newPred[0]) {
             // console.log("prediction arr ", predictions)
             let idx = 0;
-            for (var i = 0; i < predictions.length; i++){
-                if (predictions[i].label == 'open' || predictions[i].label == 'closed'){
+            for (var i = 0; i < newPred.length; i++){
+                if (newPred[i].label == 'open' || newPred[i].label == 'closed' || newPred[i].label == 'point'){
                     idx = i;
                     break;
                 }
             }
 
             // START HANDS CLOSED LOGIC
-            if (predictions[idx].label != 'closed' && handClosedMeter >= 0) {
+            if (newPred[idx].label != 'closed' && handClosedMeter >= 0) {
                 handClosed = false
             } else {
                 handClosed = true
             }
             // END HANDS CLOSED LOGIC
 
-            if (predictions[idx].label == 'point') {
-                // console.log("Detection: point")
-            } else if (predictions[idx].label == 'open') {
+            if (newPred[idx].label == 'point') {
+                console.log("POINTOPREOTPIROETOEPTRET")
+                //logic
+            } else if (newPred[idx].label == 'open') {
                 // console.log("Detection: open")
                 document.getElementById("lightsaber").style.visibility="hidden";
                 
                 saber.setPosition(Vec2(-10000, -(0.25 * SPACE_HEIGHT)))
 
-            } else if (predictions[idx].label == 'closed') {
+                //logic 
+
+            } else if (newPred[idx].label == 'closed') {
                 if (handClosedMeter > 0) {
                     // console.log("Detection: closed")
                     var d = document.getElementById('lightsaber');
@@ -113,11 +123,13 @@ function runDetection() {
                     saber.setPosition(Vec2(-10000, -(0.25 * SPACE_HEIGHT)))
                 }
                 
-            } else if (predictions[0].label == 'face') {
+            } else if (newPred[0].label == 'face') {
                 // console.log("Detection: face")
+            } else {
+                //logic 
             }
             
-            let midval = predictions[idx].bbox[1] + (predictions[idx].bbox[3] / 2) // CHANGED HERE Y COORDINATE INSTEAD
+            let midval = newPred[idx].bbox[1] + (newPred[idx].bbox[3] / 2) // CHANGED HERE Y COORDINATE INSTEAD
             gamey = document.documentElement.clientHeight * (midval / video.height) // CHANGED HERE TO HEIGHT
             // console.log(gamey, document.documentElement.clientHeight)
             // console.log(document.documentElement.clientWidth)
