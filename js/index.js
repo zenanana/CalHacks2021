@@ -623,7 +623,7 @@ planck.testbed(function (testbed) {
             mouseMoveHandler(touch)
         });
 
-        // Add keypress event listener to pause game
+        // Add keypress event listeners to pause game, toggle sound, toggle easy mode
         document.onkeyup = function (e) {
             var key = e.keyCode ? e.keyCode : e.which;
             if (startGame) {
@@ -634,6 +634,9 @@ planck.testbed(function (testbed) {
                 }
                 if (key == 83) {
                     $("input#sound").click()
+                }
+                if (key == 69) {
+                    $("input#easymodetoggle").click()
                 }
             }
         }

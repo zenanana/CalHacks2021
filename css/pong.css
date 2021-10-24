@@ -312,8 +312,7 @@ input:checked + .slider:before {
 /* START UI CUSTOM CSS */
 .lightsaberBar {
     fill:#77dd77;
-    stroke-width:3;
-    stroke:rgb(0,0,0);
+    stroke-width:0;
 }
 
 .easyModeLabel {
