@@ -142,9 +142,6 @@ handTrack.load(modelParams).then(lmodel => {
     //updateNote.innerText = "Loaded Model!"
     trackButton.disabled = false
 
-    $(".redButton").css({"display": "none"})
-    $(".greenButton").css({"display": ""})
-
     $(".greenButton").click(() => {
         if (model) {
             console.log('model loaded')
