@@ -495,6 +495,7 @@ planck.testbed(function (testbed) {
 
     function updatePowerup(powerup) {
         console.log(powerup)
+        currentPowerupSpan = $("span#currentBead")
         switch (powerup) {
             case 'slow':
                 // Flip gravity value for 2000 ms
@@ -502,9 +503,11 @@ planck.testbed(function (testbed) {
                 if (!powerupsInProgress.slow) {
                     world.setGravity(Vec2(2,0))
                     powerupsInProgress.slow = true
+                    currentPowerupSpan.attr("class", "purpleBeadInstructions")
                     setTimeout(() => {
                         world.setGravity(defaultWorldVec2)
                         powerupsInProgress.slow = false
+                        currentPowerupSpan.attr("class", "blackBeadInstructions")
                     }, 2000)
                 }
                 break;
@@ -531,6 +534,7 @@ planck.testbed(function (testbed) {
                 console.log('random')
                 if (!powerupsInProgress.random) {
                     powerupsInProgress.random = true
+                    currentPowerupSpan.attr("class", "yellowBeadInstructions")
                     for (var i = 0; i < 5; i++) {
                         (function(ind) {
                             if (ind == 0) {
@@ -543,6 +547,7 @@ planck.testbed(function (testbed) {
                                 } else if (ind != 1) {
                                     world.setGravity(Vec2(Math.random(10) * 10 - 5, Math.random(10) * 10 - 5))
                                 }
+                                currentPowerupSpan.attr("class", "blackBeadInstructions")
                             }, 1000 + (1000 * ind));
                         })(i);
                     }
@@ -551,10 +556,12 @@ planck.testbed(function (testbed) {
             case 'invulnerable':
                 // Makes player invulnerable for 3s
                 console.log('invulnerable')
+                currentPowerupSpan.attr("class", "greyBeadInstructions")
                 if (!powerupsInProgress.invulnerable) {
                     powerupsInProgress.invulnerable = true
                     setTimeout(() => {
                         powerupsInProgress.invulnerable = false
+                        currentPowerupSpan.attr("class", "blackBeadInstructions")
                     }, 3000)
                 }
                 break;
