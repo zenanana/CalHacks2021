@@ -83,7 +83,7 @@ function runDetection() {
             // console.log("prediction arr ", predictions)
             let idx = 0;
             for (var i = 0; i < newPred.length; i++){
-                if (newPred[i].label == 'open' || newPred[i].label == 'closed'){
+                if (newPred[i].label == 'open' || newPred[i].label == 'closed' || newPred[i].label == 'point'){
                     idx = i;
                     break;
                 }
@@ -98,12 +98,15 @@ function runDetection() {
             // END HANDS CLOSED LOGIC
 
             if (newPred[idx].label == 'point') {
-                // console.log("Detection: point")
+                console.log("POINTOPREOTPIROETOEPTRET")
+                //logic
             } else if (newPred[idx].label == 'open') {
                 // console.log("Detection: open")
                 document.getElementById("lightsaber").style.visibility="hidden";
                 
                 saber.setPosition(Vec2(-10000, -(0.25 * SPACE_HEIGHT)))
+
+                //logic 
 
             } else if (newPred[idx].label == 'closed') {
                 if (handClosedMeter > 0) {
@@ -122,6 +125,8 @@ function runDetection() {
                 
             } else if (newPred[0].label == 'face') {
                 // console.log("Detection: face")
+            } else {
+                //logic 
             }
             
             let midval = newPred[idx].bbox[1] + (newPred[idx].bbox[3] / 2) // CHANGED HERE Y COORDINATE INSTEAD
