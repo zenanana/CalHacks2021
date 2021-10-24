@@ -142,12 +142,29 @@ handTrack.load(modelParams).then(lmodel => {
     //updateNote.innerText = "Loaded Model!"
     trackButton.disabled = false
 
-    $(".overlaycenter").animate({
-        opacity: 0,
-        fontSize: "0vw"
-    }, pauseGameAnimationDuration, function () {
-        $(".pauseoverlay").hide()
+    $(".redButton").css({"display": "none"})
+    $(".greenButton").css({"display": ""})
+
+    $(".greenButton").click(() => {
+        if (model) {
+            console.log('model loaded')
+
+            // START GETTING GAME VARIABLES READY FOR GAME START
+            NUM_BEADS = 6
+            gameStart = true
+            $(".greenButton").css({"display": "none"})
+            // END GETTING GAME VARIABLES READY FOR GAME START
+
+            $(".overlaycenter").animate({
+                opacity: 0,
+                fontSize: "0vw"
+            }, pauseGameAnimationDuration, function () {
+                $(".pauseoverlay").hide()
     });
+        }
+    })
+    $(".overlaycenter").text("Game loaded and ready to be started!")
+    
 });
 
 // ===============================
@@ -176,7 +193,7 @@ var SPACE_WIDTH = windowWidth / scale_factor;
 var SPACE_HEIGHT = windowHeight / scale_factor;
 
 // Bead Details
-var NUM_BEADS = 6
+var NUM_BEADS = 0
 var BEAD_RESTITUTION = 0.7
 
 // Paddle Details
@@ -196,6 +213,7 @@ var powerup_sound = new Audio('../static/powerup.wav')
 var pauseGame = false;
 var pauseGameAnimationDuration = 500;
 var endGame = false;
+var gameStart = false
 var handClosed = false
 var handClosedMeter = 100;
 
@@ -591,13 +609,16 @@ planck.testbed(function (testbed) {
         // Add keypress event listener to pause game
         document.onkeyup = function (e) {
             var key = e.keyCode ? e.keyCode : e.which;
-            if (key == 32) {
-                console.log("spacebar pressed")
-                pauseGamePlay()
+            if (gameStart) {
+                if (key == 32) {
+                    console.log("spacebar pressed")
+                    pauseGamePlay()
+                }
+                if (key == 83) {
+                    $("input#sound").click()
+                }
             }
-            if (key == 83) {
-                $("input#sound").click()
-            }
+            
         }
 
         var ground = world.createBody();
@@ -779,8 +800,10 @@ planck.testbed(function (testbed) {
 
     timer_value = 0
     timer_interval = window.setInterval(() => {
-                timer_value += 1
-                $(".timervalue").text(timer_value)
+                if (gameStart && !pauseGame) {
+                    timer_value += 1
+                    $(".timervalue").text(timer_value)
+                }
             }, 1000)
 
     function tick(dt) {
