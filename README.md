@@ -23,7 +23,7 @@ We were faced with the challenges of coming up with the configurations of the ob
 
 ## Accomplishments that we're proud of
 
-👨‍💻 Deploying the game on GitHub Pages for everyone to enjoy! [Try it HERE!](https://zenanana.github.io/CalHacks2021/)
+👨‍💻 Deploying the game on GitHub Pages for everyone to enjoy! [Try it HERE!](https://zenanana.github.io/Star-Whales/)
 
 💪 Getting a highscore of **420** without straining our arm muscles.
 
