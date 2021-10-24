@@ -380,7 +380,7 @@ planck.testbed(function (testbed) {
         restitution: BEAD_RESTITUTION,
         userData: {
             name: "bead",
-            points: 3
+            points: 0
         }
     };
     var paddleFixedDef = {
@@ -580,6 +580,7 @@ planck.testbed(function (testbed) {
                 playerScore = 0
             }
             playerScoreString = "0".repeat(4 - playerScore.toString().length) + playerScore.toString()
+            // console.log(playerScoreString)
             $(".healthvalue").text(playerScoreString)
             pointsAdded = points > 0 ? "+" + points : points
             $(".healthadded").text(pointsAdded)
@@ -826,7 +827,7 @@ planck.testbed(function (testbed) {
                 restitution: BEAD_RESTITUTION,
                 userData: {
                     name: beadFixedDef.userData.name, // Default name 'bead'
-                    points: 3,
+                    points: 0,
                     powerup: null // null, 'slow' 
                 }
             };
