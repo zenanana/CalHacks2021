@@ -172,12 +172,26 @@ handTrack.load(modelParams).then(lmodel => {
     //updateNote.innerText = "Loaded Model!"
     trackButton.disabled = false
 
-    $(".overlaycenter").animate({
-        opacity: 0,
-        fontSize: "0vw"
-    }, pauseGameAnimationDuration, function () {
-        $(".pauseoverlay").hide()
+    $(".greenButton").click(() => {
+        if (model) {
+            console.log('model loaded')
+
+            // START GETTING GAME VARIABLES READY FOR GAME START
+            NUM_BEADS = 6
+            gameStart = true
+            $(".greenButton").css({"display": "none"})
+            // END GETTING GAME VARIABLES READY FOR GAME START
+
+            $(".overlaycenter").animate({
+                opacity: 0,
+                fontSize: "0vw"
+            }, pauseGameAnimationDuration, function () {
+                $(".pauseoverlay").hide()
     });
+        }
+    })
+    $(".overlaycenter").text("Game loaded and ready to be started!")
+    
 });
 
 // ===============================
@@ -206,7 +220,7 @@ var SPACE_WIDTH = windowWidth / scale_factor;
 var SPACE_HEIGHT = windowHeight / scale_factor;
 
 // Bead Details
-var NUM_BEADS = 6
+var NUM_BEADS = 0
 var BEAD_RESTITUTION = 0.7
 
 // Paddle Details
@@ -226,6 +240,7 @@ var powerup_sound = new Audio('../static/powerup.wav')
 var pauseGame = false;
 var pauseGameAnimationDuration = 500;
 var endGame = false;
+var gameStart = false
 var handClosed = false
 var handClosedMeter = 100;
 var handPoint = false
@@ -622,13 +637,15 @@ planck.testbed(function (testbed) {
         // Add keypress event listener to pause game
         document.onkeyup = function (e) {
             var key = e.keyCode ? e.keyCode : e.which;
-            if (key == 32) {
-                console.log("spacebar pressed")
-                playSoundEffect(menu_sound)
-                pauseGamePlay()
-            }
-            if (key == 83) {
-                $("input#sound").click()
+            if (gameStart) {
+                if (key == 32) {
+                    console.log("spacebar pressed")
+                    playSoundEffect(menu_sound)
+                    pauseGamePlay()
+                }
+                if (key == 83) {
+                    $("input#sound").click()
+                }
             }
         }
 
@@ -754,28 +771,28 @@ planck.testbed(function (testbed) {
 
             if (randVal > 0.95) {
                 beadColor.fill = '#800080' // Purple
-                beadWidthFactor = 0.007
+                beadWidthFactor = 0.010
                 fd.userData.powerup = 'slow'
                 fd.userData.name = 'slow'
             } else if (randVal > 0.90) {
                 beadColor.fill = '#FFFF00' // Yellow
-                beadWidthFactor = 0.020
+                beadWidthFactor = 0.010
                 fd.userData.powerup = 'random'
                 fd.userData.name = 'random'
             } else if (randVal > 0.87) {
                 beadColor.fill = '#808080' // Grey
-                beadWidthFactor = 0.007
+                beadWidthFactor = 0.010
                 fd.userData.powerup = 'invulnerable'
                 fd.userData.name = 'invulnerable'
             } else if (randVal > 0.83) {
                 beadColor.fill = '#FFA500' // Orange
-                beadWidthFactor = 0.020
+                beadWidthFactor = 0.010
                 fd.userData.powerup = 'force'
                 fd.userData.name = 'force'
             } else if (randVal > 0.8) {
                 //   green ball, - 20
                 beadColor.fill = '#32CD32' // Green
-                beadWidthFactor = 0.012
+                beadWidthFactor = 0.007
                 fd.userData.points = -20;
                 fd.userData.name = 'bead_20'
             } else if (randVal < 0.2) {
@@ -787,7 +804,7 @@ planck.testbed(function (testbed) {
             } else {
                 // White ball - 30
                 beadColor.fill = '#fff' // White
-                beadWidthFactor = 0.009
+                beadWidthFactor = 0.007
                 fd.userData.points = -30;
                 fd.userData.name = 'bead_30'
             }
@@ -810,14 +827,16 @@ planck.testbed(function (testbed) {
 
     timer_value = 0
     timer_interval = window.setInterval(() => {
-                timer_value += 1
-                $(".timervalue").text(timer_value)
+                if (gameStart && !pauseGame) {
+                    timer_value += 1
+                    $(".timervalue").text(timer_value)
+                }
             }, 1000)
 
     function tick(dt) {
         globalTime += dt;
         var d = document.getElementById('whale');
-        var e = document.getElementById('wave');
+        // var e = document.getElementById('wave');
 
         var h = document.getElementById('halo');
 
@@ -825,7 +844,7 @@ planck.testbed(function (testbed) {
         // console.log("e here", e)
 
         d.style.position = "absolute";
-        e.style.position = "absolute";
+        // e.style.position = "absolute";
         h.style.position = "absolute";
 
         // console.log("padd obj", paddle)
@@ -837,8 +856,8 @@ planck.testbed(function (testbed) {
         d.style.bottom = (p.y/SPACE_HEIGHT*document.documentElement.clientHeight - 250) + 'px' ; // HACK
 
 
-        e.style.left = (p.x/SPACE_WIDTH*document.documentElement.clientWidth + 900) + 'px'; // HACK
-        e.style.bottom = (p.y/SPACE_HEIGHT*document.documentElement.clientHeight - 1100) + 'px' ; // HACK
+        // e.style.left = (p.x/SPACE_WIDTH*document.documentElement.clientWidth + 900) + 'px'; // HACK
+        // e.style.bottom = (p.y/SPACE_HEIGHT*document.documentElement.clientHeight - 1100) + 'px' ; // HACK
 
 
         h.style.left = (ph.x/SPACE_WIDTH*document.documentElement.clientWidth + 850) + 'px'; // HACK
@@ -863,15 +882,17 @@ planck.testbed(function (testbed) {
         }
 
         // START HANDS CLOSED LOGIC
-        if (handClosed && world.m_stepCount % 10 == 0 && handClosedMeter > 0) {
-            handClosedMeter -= 1
-            saber.setPosition(paddle.getPosition())
-        } else if (!handClosed && world.m_stepCount % 17 == 0 && handClosedMeter < 100) {
-            handClosedMeter += 1
-            console.log(handClosedMeter)
-        }
-        if (world.m_stepCount) {
-            document.getElementById("handClosedMeter").style.width = `${handClosedMeter}px`
+        if (!pauseGame && gameStart) {
+            if (handClosed && world.m_stepCount % 10 == 0 && handClosedMeter > 0) {
+                handClosedMeter -= 1
+                saber.setPosition(paddle.getPosition())
+            } else if (!handClosed && world.m_stepCount % 17 == 0 && handClosedMeter < 100) {
+                handClosedMeter += 1
+                console.log(handClosedMeter)
+            }
+            if (world.m_stepCount) {
+                document.getElementById("handClosedMeter").style.width = `${handClosedMeter}px`
+            }
         }
         if (handPoint && world.m_stepCount % 10 == 0){
             console.log("SETTING POSITION")

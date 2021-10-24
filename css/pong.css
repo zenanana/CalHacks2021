@@ -270,3 +270,34 @@ input:checked + .slider:before {
   border-radius: 50%;
 }
 /* END TOGGLE CSS */
+
+/* START MENU & BUTTONS CSS */
+.overlaymenu {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+}
+
+.greenButton {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+
+.redButton {
+    background-color:red;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+/* END MENU & BUTTONS CSS */
