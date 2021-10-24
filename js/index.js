@@ -91,7 +91,16 @@ function runDetection() {
             // END HANDS CLOSED LOGIC
 
             if (predictions[idx].label == 'point') {
+                console.log("WE ARE HERHERHEHRHEH")
+                var h = document.getElementById("halo"); 
+                h.style.visibility="visible"; 
+                h.style.position="absolute"; 
+                var p = paddle.getPosition(); 
+                h.style.left = (p.x/SPACE_WIDTH*document.documentElement.clientWidth + 950) + 'px'; // HACK
+                h.style.bottom = (p.y/SPACE_HEIGHT*document.documentElement.clientHeight + 100) + 'px' ; // HACK
+                
                 // console.log("Detection: point")
+                // logic - set visibility of halo to be true
             } else if (predictions[idx].label == 'open') {
                 // console.log("Detection: open")
                 document.getElementById("lightsaber").style.visibility="hidden";
@@ -115,6 +124,8 @@ function runDetection() {
                 
             } else if (predictions[0].label == 'face') {
                 // console.log("Detection: face")
+
+                
             }
             
             let midval = predictions[idx].bbox[1] + (predictions[idx].bbox[3] / 2) // CHANGED HERE Y COORDINATE INSTEAD
@@ -637,7 +648,7 @@ planck.testbed(function (testbed) {
             type: "kinematic",
             filterCategoryBits: PADDLE,
             filterMaskBits: BEAD,
-            position:  Vec2(-(0.4 * SPACE_WIDTH / 2), -(0.1 * SPACE_HEIGHT))
+            position:  Vec2(-10000, -(0.1 * SPACE_HEIGHT))
         })
 
         paddleLines = [
