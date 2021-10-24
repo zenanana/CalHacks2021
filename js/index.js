@@ -854,15 +854,17 @@ planck.testbed(function (testbed) {
         }
 
         // START HANDS CLOSED LOGIC
-        if (handClosed && world.m_stepCount % 10 == 0 && handClosedMeter > 0) {
-            handClosedMeter -= 1
-            saber.setPosition(paddle.getPosition())
-        } else if (!handClosed && world.m_stepCount % 17 == 0 && handClosedMeter < 100) {
-            handClosedMeter += 1
-            console.log(handClosedMeter)
-        }
-        if (world.m_stepCount) {
-            document.getElementById("handClosedMeter").style.width = `${handClosedMeter}px`
+        if (!pauseGame && gameStart) {
+            if (handClosed && world.m_stepCount % 10 == 0 && handClosedMeter > 0) {
+                handClosedMeter -= 1
+                saber.setPosition(paddle.getPosition())
+            } else if (!handClosed && world.m_stepCount % 17 == 0 && handClosedMeter < 100) {
+                handClosedMeter += 1
+                console.log(handClosedMeter)
+            }
+            if (world.m_stepCount) {
+                document.getElementById("handClosedMeter").style.width = `${handClosedMeter}px`
+            }
         }
         // console.log(handClosedMeter)
 
