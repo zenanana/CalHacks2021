@@ -20,7 +20,7 @@ $(".pauseoverlay").show()
 // $(".overlaycenter").text("Game Paused")
 $(".overlaycenter").animate({
     opacity: 1,
-    fontSize: "4vw"
+    fontSize: "2vw"
 }, pauseGameAnimationDuration, function () {});
 
 const modelParams = {
@@ -77,6 +77,14 @@ function runDetection() {
                 if (predictions[i].label == 'face') continue;
                 newPred.push(predictions[i]);
             }
+        } else {
+            handClosed = false;
+            document.getElementById("lightsaber").style.visibility="hidden";
+            handPoint = false;
+            var h = document.getElementById("halo");
+
+            h.style.visibility="hidden"; 
+            halo.setPosition(Vec2(-10000, -(0.1 * SPACE_HEIGHT)))
         }
         model.renderPredictions(newPred, canvas, context, video);
         if (newPred[0]) {
@@ -97,14 +105,48 @@ function runDetection() {
             }
             // END HANDS CLOSED LOGIC
 
-            if (newPred[idx].label == 'point') {
-                console.log("POINTOPREOTPIROETOEPTRET")
-                //logic
-            } else if (newPred[idx].label == 'open') {
+            if (predictions[idx].label != 'point') {
+                handPoint = false
+                var h = document.getElementById("halo");
+
+                h.style.visibility="hidden"; 
+                halo.setPosition(Vec2(-10000, -(0.1 * SPACE_HEIGHT)))
+            } else {
+                handPoint = true
+                var h = document.getElementById("halo");
+
+                h.style.visibility="visible"; 
+            }
+
+            if (predictions[idx].label == 'point') {
+                console.log("WE ARE HERHERHEHRHEH")
+                console.log("halo.x ", halo.getPosition().x)
+                console.log("halo.y ", halo.getPosition().y)
+                console.log("pd.x ", paddle.getPosition().x)
+                console.log("pd.y ", paddle.getPosition().y)
+                var h = document.getElementById("halo");
+                h.style.visibility="visible"; 
+                h.style.position="absolute"; 
+                //halo.setPosition(Vec2(paddle.getPosition().x, paddle.getPosition().y+8))
+                document.getElementById("lightsaber").style.visibility="hidden";
+                saber.setPosition(Vec2(-10000, -(0.25 * SPACE_HEIGHT)))
+                // var p = paddle.getPosition(); 
+                // console.log("p.x ", p.x);
+                // console.log("p.y ", p.y)
+                // /h.style.zIndex = 2;
+                //h.style.left = (p.x/SPACE_WIDTH*document.documentElement.clientWidth + 200) + 'px'; // HACK
+                //h.style.bottom = (p.y/SPACE_HEIGHT*document.documentElement.clientHeight + 250) + 'px' ; // HACK
+                //console.log("h.x ", (p.x/SPACE_WIDTH*document.documentElement.clientWidth + 200));
+                //console.log("h.y ", (p.y/SPACE_HEIGHT*document.documentElement.clientHeight + 250))
+                
+                // console.log("Detection: point")
+                // logic - set visibility of halo to be true
+            } else if (predictions[idx].label == 'open') {
                 // console.log("Detection: open")
                 document.getElementById("lightsaber").style.visibility="hidden";
                 
                 saber.setPosition(Vec2(-10000, -(0.25 * SPACE_HEIGHT)))
+                halo.setPosition(Vec2(-10000, -(0.1 * SPACE_HEIGHT)))
 
                 //logic 
 
@@ -122,22 +164,33 @@ function runDetection() {
                     document.getElementById("lightsaber").style.visibility="hidden"
                     saber.setPosition(Vec2(-10000, -(0.25 * SPACE_HEIGHT)))
                 }
+                halo.setPosition(Vec2(-10000, -(0.1 * SPACE_HEIGHT)))
                 
             } else if (newPred[0].label == 'face') {
                 // console.log("Detection: face")
-            } else {
-                //logic 
+                halo.setPosition(Vec2(-10000, -(0.1 * SPACE_HEIGHT)))
+
+                
             }
             
             let midval = newPred[idx].bbox[1] + (newPred[idx].bbox[3] / 2) // CHANGED HERE Y COORDINATE INSTEAD
             gamey = document.documentElement.clientHeight * (midval / video.height) // CHANGED HERE TO HEIGHT
             // console.log(gamey, document.documentElement.clientHeight)
             // console.log(document.documentElement.clientWidth)
-            updatePaddleControl(gamey)
-            updateSaberControl(gamey)
-            updateHaloControl(gamey)
-            console.log('Predictions: ', gamey);
+            if (!pauseGame && !endGame && startGame) {
+                updatePaddleControl(gamey)
+                updateSaberControl(gamey)
+                updateHaloControl(gamey)
+                console.log('Predictions: ', gamey);
+            }
+        } else {
+            handClosed = false;
+            handPoint = false;
+            document.getElementById("lightsaber").style.visibility="hidden";
+            var h = document.getElementById("halo");
 
+            h.style.visibility="hidden"; 
+         
         }
         if (isVideo) {
             setTimeout(() => {
@@ -154,14 +207,18 @@ handTrack.load(modelParams).then(lmodel => {
     //updateNote.innerText = "Loaded Model!"
     trackButton.disabled = false
 
-    $(".greenButton").click(() => {
+    startGameButton = $(".greenButton")
+    startGameButton.css({"background-color": "#77dd77"})
+    startGameButton.text("Start Game")
+
+    startGameButton.click(() => {
         if (model) {
             console.log('model loaded')
 
             // START GETTING GAME VARIABLES READY FOR GAME START
             NUM_BEADS = 6
-            gameStart = true
-            $(".greenButton").css({"display": "none"})
+            startGame = true
+            startGameButton.css({"display": "none"})
             // END GETTING GAME VARIABLES READY FOR GAME START
 
             $(".overlaycenter").animate({
@@ -222,9 +279,11 @@ var powerup_sound = new Audio('../static/powerup.wav')
 var pauseGame = false;
 var pauseGameAnimationDuration = 500;
 var endGame = false;
-var gameStart = false
+var startGame = false
 var handClosed = false
 var handClosedMeter = 100;
+var handPoint = false
+
 
 // END GAME GLOBAL VARIABLES
 
@@ -418,16 +477,18 @@ planck.testbed(function (testbed) {
         // console.log("attempting stroke change", bead.getUserData());
         //console.log("bead points ",bead.getUserData().points);
         beadData = bead.getUserData()
-        if (beadData.powerup) {
-            // If bead hit is powerup bead
-            playSoundEffect(powerup_sound)
-            updatePowerup(beadData.powerup)
-        } else {
-            // If bead hit is point bead
-            playSoundEffect(damage_sound)
-            updateScoreBox(beadData.points);
-            document.getElementById("whale").src="./static/hurtwhale.gif"
-            setTimeout(() => {document.getElementById("whale").src="./static/whale200.gif"}, 5000)
+        if (!pauseGame && startGame && !endGame) {
+            if (beadData.powerup) {
+                // If bead hit is powerup bead
+                playSoundEffect(powerup_sound)
+                updatePowerup(beadData.powerup)
+            } else {
+                // If bead hit is point bead
+                playSoundEffect(damage_sound)
+                updateScoreBox(beadData.points);
+                document.getElementById("whale").src="./static/hurtwhale.gif"
+                setTimeout(() => {document.getElementById("whale").src="./static/whale200.gif"}, 5000)
+            }
         }
     }
 
@@ -535,7 +596,7 @@ planck.testbed(function (testbed) {
             $(".overlaycenter").text("Game Paused")
             $(".overlaycenter").animate({
                 opacity: 1,
-                fontSize: "4vw"
+                fontSize: "2vw"
             }, pauseGameAnimationDuration, function () {});
         } else {
 
@@ -565,14 +626,13 @@ planck.testbed(function (testbed) {
         $(".overlaycenter").text(`Game Over! Your score is ${timer_value}. Your highest score is ${highscore}.`)
         $(".overlaycenter").animate({
             opacity: 1,
-            fontSize: "4vw"
+            fontSize: "2vw"
         }, pauseGameAnimationDuration, function () {});
     }
 
     // process mouse move and touch events
     function mouseMoveHandler(event) {
-        if (!pauseGame && !endGame) {
-            console.log("event.clientY: ", event.clientY)
+        if (!pauseGame && !endGame && startGame) {
             mouseY = convertToRange(event.clientY, windowYRange, worldYRange);
             if (!isNaN(mouseY)) {
                 // console.log("MOUSE MOVING")
@@ -619,10 +679,10 @@ planck.testbed(function (testbed) {
             mouseMoveHandler(touch)
         });
 
-        // Add keypress event listener to pause game
+        // Add keypress event listeners to pause game, toggle sound, toggle easy mode
         document.onkeyup = function (e) {
             var key = e.keyCode ? e.keyCode : e.which;
-            if (gameStart) {
+            if (startGame) {
                 if (key == 32) {
                     console.log("spacebar pressed")
                     playSoundEffect(menu_sound)
@@ -630,6 +690,9 @@ planck.testbed(function (testbed) {
                 }
                 if (key == 83) {
                     $("input#sound").click()
+                }
+                if (key == 69) {
+                    $("input#easymodetoggle").click()
                 }
             }
         }
@@ -671,18 +734,18 @@ planck.testbed(function (testbed) {
             type: "kinematic",
             filterCategoryBits: PADDLE,
             filterMaskBits: BEAD,
-            position:  Vec2(-(0.4 * SPACE_WIDTH / 2), -(0.1 * SPACE_HEIGHT))
+            position:  Vec2(-10000, -(0.0 * SPACE_HEIGHT))
         })
 
         paddleLines = [
-            [1.8, -0.1],
-            [1.8, 0.1],
-            [1.2, 0.4],
-            [0.4, 0.6],
-            [-2.4, 0.6],
-            [-3.2, 0.4],
-            [-3.8, 0.1],
-            [-3.8, -0.1]
+            [1.8, 2.4],
+            [1.8, 2.6],
+            [1.2, 2.9],
+            [0.4, 3.1],
+            [-2.4, 3.1],
+            [-3.2, 2.9],
+            [-3.8, 2.6],
+            [-3.8, 2.4]
         ]
 
         n = 10, radius = SPACE_WIDTH * 0.03, paddlePath = [], paddlePath = []
@@ -694,7 +757,7 @@ planck.testbed(function (testbed) {
         halo.createFixture(pl.Polygon(paddlePath), haloFixedDef)
         halo.render = {
             fill: '#FFFF00',
-            stroke: '#000000'
+            stroke: '#00FF00'
         }
     }
 
@@ -720,7 +783,6 @@ planck.testbed(function (testbed) {
 
         paddle.createFixture(pl.Polygon(paddlePath), paddleFixedDef)
         paddle.render = {
-            fill: '#222222',
             stroke: '#ff0000'
         }
     }
@@ -813,7 +875,7 @@ planck.testbed(function (testbed) {
 
     timer_value = 0
     timer_interval = window.setInterval(() => {
-                if (gameStart && !pauseGame) {
+                if (startGame && !pauseGame) {
                     timer_value += 1
                     $(".timervalue").text(timer_value)
                 }
@@ -850,7 +912,7 @@ planck.testbed(function (testbed) {
         // h.style.left = (ph.x/SPACE_WIDTH*document.documentElement.clientWidth + 850) + 'px'; // HACK
         // h.style.bottom = (ph.y/SPACE_HEIGHT*document.documentElement.clientHeight - 350) + 'px' ; // HACK
 
-        if (easymode ? world.m_stepCount % 25 == 0 : world.m_stepCount % 10 == 0) {
+        if (easymode ? world.m_stepCount % 18 == 0 : world.m_stepCount % 10 == 0) {
             if (!pauseGame) {
                 generateBeads(NUM_BEADS);
                 //console.log("car size", characterBodies.length);
@@ -869,17 +931,23 @@ planck.testbed(function (testbed) {
         }
 
         // START HANDS CLOSED LOGIC
-        if (!pauseGame && gameStart) {
-            if (handClosed && world.m_stepCount % 10 == 0 && handClosedMeter > 0) {
+        if (!pauseGame && startGame) {
+            if (handClosed && world.m_stepCount % 7 == 0 && handClosedMeter > 0) {
                 handClosedMeter -= 1
                 saber.setPosition(paddle.getPosition())
-            } else if (!handClosed && world.m_stepCount % 17 == 0 && handClosedMeter < 100) {
+            } else if (!handClosed && world.m_stepCount % 14 == 0 && handClosedMeter < 100) {
                 handClosedMeter += 1
                 console.log(handClosedMeter)
             }
             if (world.m_stepCount) {
                 document.getElementById("handClosedMeter").style.width = `${handClosedMeter}px`
             }
+        }
+        if (handPoint && world.m_stepCount % 10 == 0){
+            console.log("SETTING POSITION")
+            var px = paddle.getPosition()
+            px.y = px.y + 2
+            halo.setPosition(px)
         }
         // console.log(handClosedMeter)
 
