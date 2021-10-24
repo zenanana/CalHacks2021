@@ -127,7 +127,7 @@ function runDetection() {
                 var h = document.getElementById("halo");
                 h.style.visibility="visible"; 
                 h.style.position="absolute"; 
-                halo.setPosition(Vec2(paddle.getPosition().x, paddle.getPosition().y+8))
+                //halo.setPosition(Vec2(paddle.getPosition().x, paddle.getPosition().y+8))
                 document.getElementById("lightsaber").style.visibility="hidden";
                 saber.setPosition(Vec2(-10000, -(0.25 * SPACE_HEIGHT)))
                 // var p = paddle.getPosition(); 
@@ -719,18 +719,18 @@ planck.testbed(function (testbed) {
             type: "kinematic",
             filterCategoryBits: PADDLE,
             filterMaskBits: BEAD,
-            position:  Vec2(-10000, -(0.1 * SPACE_HEIGHT))
+            position:  Vec2(-10000, -(0.0 * SPACE_HEIGHT))
         })
 
         paddleLines = [
-            [1.8, -0.1],
-            [1.8, 0.1],
-            [1.2, 0.4],
-            [0.4, 0.6],
-            [-2.4, 0.6],
-            [-3.2, 0.4],
-            [-3.8, 0.1],
-            [-3.8, -0.1]
+            [1.8, 2.4],
+            [1.8, 2.6],
+            [1.2, 2.9],
+            [0.4, 3.1],
+            [-2.4, 3.1],
+            [-3.2, 2.9],
+            [-3.8, 2.6],
+            [-3.8, 2.4]
         ]
 
         n = 10, radius = SPACE_WIDTH * 0.03, paddlePath = [], paddlePath = []
