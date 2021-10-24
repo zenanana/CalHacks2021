@@ -119,11 +119,11 @@ function runDetection() {
             }
 
             if (predictions[idx].label == 'point') {
-                console.log("WE ARE HERHERHEHRHEH")
-                console.log("halo.x ", halo.getPosition().x)
-                console.log("halo.y ", halo.getPosition().y)
-                console.log("pd.x ", paddle.getPosition().x)
-                console.log("pd.y ", paddle.getPosition().y)
+                // console.log("WE ARE HERHERHEHRHEH")
+                // console.log("halo.x ", halo.getPosition().x)
+                // console.log("halo.y ", halo.getPosition().y)
+                // console.log("pd.x ", paddle.getPosition().x)
+                // console.log("pd.y ", paddle.getPosition().y)
                 var h = document.getElementById("halo");
                 h.style.visibility="visible"; 
                 h.style.position="absolute"; 
@@ -183,7 +183,7 @@ function runDetection() {
                 updatePaddleControl(gamey)
                 updateSaberControl(gamey)
                 updateHaloControl(gamey)
-                console.log('Predictions: ', gamey);
+                // console.log('Predictions: ', gamey);
             }
         } else {
             handClosed = false;
@@ -336,7 +336,7 @@ function updatePaddleControl(y) {
     // paddle.setLinearVelocity(lineaVeloctiy)
     linearVelocity.y = isNaN(linearVelocity.y) ? 0 : linearVelocity.y
     paddle.setLinearVelocity(linearVelocity)
-    console.log("linear velocity", linearVelocity.x, linearVelocity.y)
+    // console.log("linear velocity", linearVelocity.x, linearVelocity.y)
 }
 
 function updateSaberControl(y) {
@@ -347,7 +347,7 @@ function updateSaberControl(y) {
     // paddle.setLinearVelocity(lineaVeloctiy)
     linearVelocity.y = isNaN(linearVelocity.y) ? 0 : linearVelocity.y
     saber.setLinearVelocity(linearVelocity)
-    console.log("linear velocity", linearVelocity.x, linearVelocity.y)
+    // console.log("linear velocity", linearVelocity.x, linearVelocity.y)
 }
 
 function updateHaloControl(y) {
@@ -579,7 +579,8 @@ planck.testbed(function (testbed) {
             if (playerScore < 0) {
                 playerScore = 0
             }
-            $(".healthvalue").text(playerScore)
+            playerScoreString = "0".repeat(4 - playerScore.toString().length) + playerScore.toString()
+            $(".healthvalue").text(playerScoreString)
             pointsAdded = points > 0 ? "+" + points : points
             $(".healthadded").text(pointsAdded)
             $(".healthadded").show().animate({
@@ -654,7 +655,7 @@ planck.testbed(function (testbed) {
                 // console.log("mouse y: ", mouseY)
                 // console.log("paddle position y: ", paddle.getPosition().y)
                 linearVelocity = Vec2(0, (mouseY + paddle.getPosition().y) * accelFactor)
-                console.log("mouseMoveHandler", linearVelocity)
+                // console.log("mouseMoveHandler", linearVelocity)
                 linearVelocity.y = isNaN(linearVelocity.y) ? 0 : linearVelocity.y
                 paddle.setLinearVelocity(linearVelocity)
                 saber.setLinearVelocity(linearVelocity)
@@ -951,14 +952,17 @@ planck.testbed(function (testbed) {
             }
 
             // START HANDS POINT LOGIC
+            console.log(handPoint)
             if (handPoint && world.m_stepCount % 10 == 0 && handPointMeter > 0){
                 console.log("SETTING POSITION")
                 var px = paddle.getPosition()
                 px.y = px.y + 2
                 halo.setPosition(px)
                 handPointMeter -= 1
-            } else if (!handPoint && world.m_stepCOunt % 17 == 0 && handPointMeter < 100) {
+            }
+            if (!handPoint && world.m_stepCount % 10 == 0 && handPointMeter < 100) {
                 handPointMeter += 1
+                console.log('dsalkfjdsalfjlk')
             }
             if (world.m_stepCount) {
                 document.getElementById("handPointMeter").style.width = `${handPointMeter}px`
@@ -1029,7 +1033,7 @@ planck.testbed(function (testbed) {
 
 function convertToRange(value, srcRange, dstRange) {
     // value is outside source range return
-    console.log(srcRange, dstRange)
+    // console.log(srcRange, dstRange)
     if (value < srcRange[0] || value > srcRange[1]) {
         return NaN;
     }
