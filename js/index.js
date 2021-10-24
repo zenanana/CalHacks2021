@@ -158,8 +158,10 @@ function runDetection() {
                     d.style.position = "absolute";
                     var p = paddle.getPosition();
                     d.style.zIndex = 2;
-                    d.style.left = (p.x/SPACE_WIDTH*document.documentElement.clientWidth + 950) + 'px'; // HACK
-                    d.style.bottom = (p.y/SPACE_HEIGHT*document.documentElement.clientHeight - 300) + 'px' ; // HACK
+                    windowWidth = window.innerWidth // Update the window width if user changes it.
+                    windowHeight = window.innerHeight // Update the window width if user changes it.
+                    d.style.left = ((SPACE_WIDTH/2+p.x)/SPACE_WIDTH*windowWidth) + 'px';
+                    d.style.top = ((SPACE_HEIGHT/2-p.y)/SPACE_HEIGHT*windowHeight) + 'px' ;
                 } else {
                     document.getElementById("lightsaber").style.visibility="hidden"
                     saber.setPosition(Vec2(-10000, -(0.25 * SPACE_HEIGHT)))
@@ -769,10 +771,10 @@ planck.testbed(function (testbed) {
             position: Vec2(-(0.4 * SPACE_WIDTH / 2), -(0.25 * SPACE_HEIGHT))
         })
         paddleLines = [
-            [-4,2.5],
-            [2,-2],
-            [-4,-2],
-            [2,2.5]
+            [2.5,0],
+            [4.1,0],
+            [4.1,-1.7],
+            [2.5,-1.7]
         ]
 
         n = 10, radius = SPACE_WIDTH * 0.03, paddlePath = [], paddlePath = []
@@ -891,26 +893,19 @@ planck.testbed(function (testbed) {
         // console.log("e here", e)
 
         d.style.position = "absolute";
-        // e.style.position = "absolute";
         h.style.position = "absolute";
 
         // console.log("padd obj", paddle)
         var p = paddle.getPosition();
         var ph = halo.getPosition();
         // console.log("paddle, ", p.x/SPACE_WIDTH*document.documentElement.clientWidth, p.y/SPACE_HEIGHT*document.documentElement.clientHeight)
-        
-        d.style.left = ((SPACE_WIDTH/2+p.x)/SPACE_WIDTH*windowWidth) + 'px'; // HACK
-        d.style.top = ((SPACE_HEIGHT/2-p.y)/SPACE_HEIGHT*windowHeight) + 'px' ; // HACK
+        windowWidth = window.innerWidth // Update the window width if user changes it.
+        windowHeight = window.innerHeight // Update the window width if user changes it.
+        d.style.left = ((SPACE_WIDTH/2+p.x)/SPACE_WIDTH*windowWidth) + 'px';
+        d.style.top = ((SPACE_HEIGHT/2-p.y)/SPACE_HEIGHT*windowHeight) + 'px' ;
 
-
-        // e.style.left = (p.x/SPACE_WIDTH*document.documentElement.clientWidth + 900) + 'px'; // HACK
-        // e.style.bottom = (p.y/SPACE_HEIGHT*document.documentElement.clientHeight - 1100) + 'px' ; // HACK
-
-        h.style.left = ((SPACE_WIDTH/2+ph.x)/SPACE_WIDTH*windowWidth) + 'px'; // HACK
-        h.style.top = ((SPACE_HEIGHT/2-ph.y)/SPACE_HEIGHT*windowHeight) + 'px' ; // HACK
-
-        // h.style.left = (ph.x/SPACE_WIDTH*document.documentElement.clientWidth + 850) + 'px'; // HACK
-        // h.style.bottom = (ph.y/SPACE_HEIGHT*document.documentElement.clientHeight - 350) + 'px' ; // HACK
+        h.style.left = ((SPACE_WIDTH/2+ph.x)/SPACE_WIDTH*windowWidth) + 'px';
+        h.style.top = ((SPACE_HEIGHT/2-ph.y)/SPACE_HEIGHT*windowHeight) + 'px' ;
 
         if (easymode ? world.m_stepCount % 18 == 0 : world.m_stepCount % 10 == 0) {
             if (!pauseGame) {
