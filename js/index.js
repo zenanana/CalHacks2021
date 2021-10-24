@@ -825,46 +825,45 @@ planck.testbed(function (testbed) {
 
             var randVal = Math.random();
 
-            if (randVal > 0.95) {
+            if (randVal > 0.97) {
                 beadColor.fill = '#800080' // Purple
-                beadWidthFactor = 0.010
+                beadWidthFactor = 0.013
                 fd.userData.powerup = 'slow'
                 fd.userData.name = 'slow'
-            } else if (randVal > 0.90) {
+            } else if (randVal > 0.94) {
                 beadColor.fill = '#FFFF00' // Yellow
-                beadWidthFactor = 0.010
+                beadWidthFactor = 0.013
                 fd.userData.powerup = 'random'
                 fd.userData.name = 'random'
-            } else if (randVal > 0.87) {
+            } else if (randVal > 0.90) {
                 beadColor.fill = '#808080' // Grey
-                beadWidthFactor = 0.010
+                beadWidthFactor = 0.013
                 fd.userData.powerup = 'invulnerable'
                 fd.userData.name = 'invulnerable'
-            } else if (randVal > 0.83) {
+            } else if (randVal > 0.87) {
                 beadColor.fill = '#FFA500' // Orange
-                beadWidthFactor = 0.010
+                beadWidthFactor = 0.013
                 fd.userData.powerup = 'force'
                 fd.userData.name = 'force'
-            } else if (randVal > 0.8) {
+            } else if (randVal > 0.65) {
                 //   green ball, - 20
                 beadColor.fill = '#32CD32' // Green
-                beadWidthFactor = 0.007
+                beadWidthFactor = 0.005
                 fd.userData.points = -20;
                 fd.userData.name = 'bead_20'
-            } else if (randVal < 0.2) {
+            } else if (randVal > 0.47) {
                 //  Red Ball, - 50
-                beadWidthFactor = 0.007
+                beadWidthFactor = 0.005
                 beadColor.fill = '#ff0000' // Red
                 fd.userData.points = -50;
                 fd.userData.name = 'bead_50'
-            } else {
+            } else if (randVal > 0.3) {
                 // White ball - 30
                 beadColor.fill = '#fff' // White
-                beadWidthFactor = 0.007
+                beadWidthFactor = 0.005
                 fd.userData.points = -30;
                 fd.userData.name = 'bead_30'
             }
-
 
             var shape = pl.Circle(SPACE_WIDTH * beadWidthFactor);
             characterBody.createFixture(shape, fd);
