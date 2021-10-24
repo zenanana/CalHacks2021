@@ -558,6 +558,7 @@ planck.testbed(function (testbed) {
         }
         endGame = true
         paddle.setLinearVelocity(Vec2(0, 0))
+        halo.setLinearVelocity(Vec2(0, 0))
         $(".pauseoverlay").show()
         $(".overlaycenter").text(`Game Over! Your score is ${timer_value}. Your highest score is ${highscore}.`)
         $(".overlaycenter").animate({
