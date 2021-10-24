@@ -160,7 +160,7 @@ function runDetection() {
                     d.style.zIndex = 2;
                     windowWidth = window.innerWidth // Update the window width if user changes it.
                     windowHeight = window.innerHeight // Update the window width if user changes it.
-                    d.style.left = ((SPACE_WIDTH/2+p.x)/SPACE_WIDTH*windowWidth) + 'px';
+                    d.style.left = ((SPACE_WIDTH/2+p.x + 11)/SPACE_WIDTH*windowWidth) + 'px';
                     d.style.top = ((SPACE_HEIGHT/2-p.y)/SPACE_HEIGHT*windowHeight) + 'px' ;
                 } else {
                     document.getElementById("lightsaber").style.visibility="hidden"
@@ -274,9 +274,9 @@ windowWidth = window.innerWidth
 
 var enableAudio = false;
 var soundtrack = choose_soundtrack()
-var damage_sound = new Audio('../static/damage.wav')
-var menu_sound = new Audio('../static/menu.wav')
-var powerup_sound = new Audio('../static/powerup.wav')
+var damage_sound = new Audio('./static/damage.wav')
+var menu_sound = new Audio('./static/menu.wav')
+var powerup_sound = new Audio('./static/powerup.wav')
 
 var pauseGame = false;
 var pauseGameAnimationDuration = 500;
@@ -305,15 +305,15 @@ $("input#sound").click(function () {
 function choose_soundtrack() {
     i = Math.floor(Math.random() * 5)
     if (i == 0) {
-        var bounceClip = new Audio('../static/soundtrack1.wav')
+        var bounceClip = new Audio('./static/soundtrack1.wav')
     } else if (i == 1) {
-        var bounceClip = new Audio('../static/soundtrack2.wav')
+        var bounceClip = new Audio('./static/soundtrack2.wav')
     } else if (i == 2) {
-        var bounceClip = new Audio('../static/soundtrack3.wav')
+        var bounceClip = new Audio('./static/soundtrack3.wav')
     } else if (i == 3) {
-        var bounceClip = new Audio('../static/soundtrack4.wav')
+        var bounceClip = new Audio('./static/soundtrack4.wav')
     } else if (i == 4) {
-        var bounceClip = new Audio('../static/soundtrack5.wav')
+        var bounceClip = new Audio('./static/soundtrack5.wav')
     }
     // bounceClip.type = 'audio/wav'
     return bounceClip
@@ -719,9 +719,9 @@ planck.testbed(function (testbed) {
         })
 
         paddleLines = [
-            [0, 0],
-            [4.0, 4.0],
-            [4.0, -4.0]
+            [3.5, -0.5],
+            [5.5, 1.5],
+            [5.5, -2.5]
         ]
 
         n = 10, radius = SPACE_WIDTH * 0.03, paddlePath = [], paddlePath = []
@@ -746,14 +746,14 @@ planck.testbed(function (testbed) {
         })
 
         paddleLines = [
-            [1.8, 2.4],
-            [1.8, 2.6],
-            [1.2, 2.9],
-            [0.4, 3.1],
-            [-2.4, 3.1],
-            [-3.2, 2.9],
-            [-3.8, 2.6],
-            [-3.8, 2.4]
+            [5.2, 0.5],
+            [4.5, 1.7],
+            [4.0, 2.0],
+            [3.5, 2.2],
+            [2.5, 2.2],
+            [2.0, 2.0],
+            [1.5, 1.7],
+            [0.8, 0.5]
         ]
 
         n = 10, radius = SPACE_WIDTH * 0.03, paddlePath = [], paddlePath = []
@@ -911,7 +911,7 @@ planck.testbed(function (testbed) {
         d.style.top = ((SPACE_HEIGHT/2-p.y)/SPACE_HEIGHT*windowHeight) + 'px' ;
 
         h.style.left = ((SPACE_WIDTH/2+ph.x)/SPACE_WIDTH*windowWidth) + 'px';
-        h.style.top = ((SPACE_HEIGHT/2-ph.y)/SPACE_HEIGHT*windowHeight) + 'px' ;
+        h.style.top = ((SPACE_HEIGHT/2-ph.y-10)/SPACE_HEIGHT*windowHeight) + 'px' ;
 
         if (easymode ? world.m_stepCount % 18 == 0 : world.m_stepCount % 10 == 0) {
             if (!pauseGame) {
