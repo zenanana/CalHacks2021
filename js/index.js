@@ -284,6 +284,7 @@ var endGame = false;
 var startGame = false
 var handClosed = false
 var handClosedMeter = 100;
+var handPointMeter = 100
 var handPoint = false
 
 
@@ -625,6 +626,11 @@ planck.testbed(function (testbed) {
         saber.setLinearVelocity(Vec2(0, 0))
         halo.setLinearVelocity(Vec2(0, 0))
         $(".pauseoverlay").show()
+        $(".instructionsContainer").css({"display": "none"})
+        $(".replayButton").css({"display": "flex"})
+        $(".replayButton").click(() => {
+            location.reload()
+        })
         $(".overlaycenter").text(`Game Over! Your score is ${timer_value}. Your highest score is ${highscore}.`)
         $(".overlaycenter").animate({
             opacity: 1,
@@ -925,25 +931,33 @@ planck.testbed(function (testbed) {
             }
         }
 
-        // START HANDS CLOSED LOGIC
         if (!pauseGame && startGame) {
+            // START HANDS CLOSED LOGIC
             if (handClosed && world.m_stepCount % 7 == 0 && handClosedMeter > 0) {
                 handClosedMeter -= 1
                 saber.setPosition(paddle.getPosition())
             } else if (!handClosed && world.m_stepCount % 14 == 0 && handClosedMeter < 100) {
                 handClosedMeter += 1
-                console.log(handClosedMeter)
             }
             if (world.m_stepCount) {
                 document.getElementById("handClosedMeter").style.width = `${handClosedMeter}px`
             }
+
+            // START HANDS POINT LOGIC
+            if (handPoint && world.m_stepCount % 10 == 0 && handPointMeter > 0){
+                console.log("SETTING POSITION")
+                var px = paddle.getPosition()
+                px.y = px.y + 2
+                halo.setPosition(px)
+                handPointMeter -= 1
+            } else if (!handPoint && world.m_stepCOunt % 17 == 0 && handPointMeter < 100) {
+                handPointMeter += 1
+            }
+            if (world.m_stepCount) {
+                document.getElementById("handPointMeter").style.width = `${handPointMeter}px`
+            }
         }
-        if (handPoint && world.m_stepCount % 10 == 0){
-            console.log("SETTING POSITION")
-            var px = paddle.getPosition()
-            px.y = px.y + 2
-            halo.setPosition(px)
-        }
+        
         // console.log(handClosedMeter)
 
         // END HANDS CLOSED LOGIC

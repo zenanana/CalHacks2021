@@ -297,8 +297,8 @@ input:checked + .slider:before {
     font-weight: bold;
 }
 
-/* .redButton {
-    background-color:red;
+.replayButton {
+    background-color: #77dd77;
     border: none;
     color: white;
     padding: 15px 32px;
@@ -306,12 +306,21 @@ input:checked + .slider:before {
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
-} */
+    cursor: pointer;
+    border-radius: 15px;
+    font-weight: bold;
+    display: none;
+}
 /* END MENU & BUTTONS CSS */
 
 /* START UI CUSTOM CSS */
 .lightsaberBar {
     fill:#77dd77;
+    stroke-width:0;
+}
+
+.haloBar {
+    fill:#C3B1E1;
     stroke-width:0;
 }
 
