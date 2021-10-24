@@ -206,7 +206,7 @@ var NUM_BEADS = 0
 var BEAD_RESTITUTION = 0.7
 
 // Paddle Details
-accelFactor = 0.042 * SPACE_WIDTH;
+accelFactor = -0.042 * SPACE_WIDTH;
 
 var paddleMap = new Map();
 var maxNumberPaddles = 10;
@@ -269,7 +269,7 @@ function playSoundEffect(sound) {
 function updatePaddleControl(y) {
     // gamex = x;
     let mouseY = convertToRange(y, windowYRange, worldYRange);
-    let linearVelocity = Vec2(0, (mouseY - paddle.getPosition().y) * accelFactor)
+    let linearVelocity = Vec2(0, (mouseY + paddle.getPosition().y) * accelFactor)
     // paddle.setLinearVelocity(lineaVeloctiy)
     // paddle.setLinearVelocity(lineaVeloctiy)
     linearVelocity.y = isNaN(linearVelocity.y) ? 0 : linearVelocity.y
@@ -280,7 +280,7 @@ function updatePaddleControl(y) {
 function updateSaberControl(y) {
     // gamex = x;
     let mouseY = convertToRange(y, windowYRange, worldYRange);
-    let linearVelocity = Vec2(0, (mouseY - saber.getPosition().y) * accelFactor)
+    let linearVelocity = Vec2(0, (mouseY + saber.getPosition().y) * accelFactor)
     // paddle.setLinearVelocity(lineaVeloctiy)
     // paddle.setLinearVelocity(lineaVeloctiy)
     linearVelocity.y = isNaN(linearVelocity.y) ? 0 : linearVelocity.y
@@ -291,7 +291,7 @@ function updateSaberControl(y) {
 function updateHaloControl(y) {
     // gamex = x;
     let mouseY = convertToRange(y, windowYRange, worldYRange);
-    let linearVelocity = Vec2(0, (mouseY - paddle.getPosition().y) * accelFactor)
+    let linearVelocity = Vec2(0, (mouseY + paddle.getPosition().y) * accelFactor)
     // paddle.setLinearVelocity(lineaVeloctiy)
     // paddle.setLinearVelocity(lineaVeloctiy)
     linearVelocity.y = isNaN(linearVelocity.y) ? 0 : linearVelocity.y
@@ -578,9 +578,8 @@ planck.testbed(function (testbed) {
                 // console.log("MOUSE MOVING")
                 // console.log("mouse y: ", mouseY)
                 // console.log("paddle position y: ", paddle.getPosition().y)
-                console.log("mouseY: ", mouseY)
-                console.log("paddle.y ", paddle.getPosition().y)
-                linearVelocity = Vec2(0, (mouseY - paddle.getPosition().y) * accelFactor)
+                linearVelocity = Vec2(0, (mouseY + paddle.getPosition().y) * accelFactor)
+                console.log("mouseMoveHandler", linearVelocity)
                 linearVelocity.y = isNaN(linearVelocity.y) ? 0 : linearVelocity.y
                 paddle.setLinearVelocity(linearVelocity)
                 saber.setLinearVelocity(linearVelocity)
