@@ -732,8 +732,8 @@ planck.testbed(function (testbed) {
 
         saber.createFixture(pl.Polygon(paddlePath), saberFixedDef)
         saber.render = {
-            fill: '#223322',
-            stroke: '#000000'
+            fill: '#222222',
+            stroke: '#222222'
         }
     }
 
@@ -764,8 +764,8 @@ planck.testbed(function (testbed) {
 
         halo.createFixture(pl.Polygon(paddlePath), haloFixedDef)
         halo.render = {
-            fill: '#FFFF00',
-            stroke: '#00FF00'
+            fill: '#222222',
+            stroke: '#222222'
         }
     }
 
@@ -791,7 +791,7 @@ planck.testbed(function (testbed) {
 
         paddle.createFixture(pl.Polygon(paddlePath), paddleFixedDef)
         paddle.render = {
-            stroke: '#ff0000'
+            stroke: '#222222'
         }
     }
 
