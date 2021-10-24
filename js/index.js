@@ -517,6 +517,7 @@ planck.testbed(function (testbed) {
         pauseGame = !pauseGame
         if (pauseGame) {
             paddle.setLinearVelocity(Vec2(0, 0))
+            halo.setLinearVelocity(Vec2(0, 0))
             $(".pauseoverlay").show()
             $(".overlaycenter").text("Game Paused")
             $(".overlaycenter").animate({
@@ -524,7 +525,6 @@ planck.testbed(function (testbed) {
                 fontSize: "4vw"
             }, pauseGameAnimationDuration, function () {});
         } else {
-            paddle.setLinearVelocity(Vec2(3, 0))
 
             $(".overlaycenter").animate({
                 opacity: 0,
@@ -806,7 +806,6 @@ planck.testbed(function (testbed) {
         globalTime += dt;
         var d = document.getElementById('whale');
         // var e = document.getElementById('wave');
-
         var h = document.getElementById('halo');
 
         // console.log("d here", d)
