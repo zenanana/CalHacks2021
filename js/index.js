@@ -624,6 +624,11 @@ planck.testbed(function (testbed) {
         saber.setLinearVelocity(Vec2(0, 0))
         halo.setLinearVelocity(Vec2(0, 0))
         $(".pauseoverlay").show()
+        $(".instructionsContainer").css({"display": "none"})
+        $(".replayButton").css({"display": "flex"})
+        $(".replayButton").click(() => {
+            location.reload()
+        })
         $(".overlaycenter").text(`Game Over! Your score is ${timer_value}. Your highest score is ${highscore}.`)
         $(".overlaycenter").animate({
             opacity: 1,
@@ -969,7 +974,7 @@ planck.testbed(function (testbed) {
             stayPaddle(item.paddle)
         });
 
-        if (playerScore <= 0) {
+        if (playerScore <= 999) {
             endGamePlay('lose')
         }
     }
